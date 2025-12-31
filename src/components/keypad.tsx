@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from '@/components/ui/button';
-import { ArrowUp, ArrowDown, ArrowLeft, ArrowRight, Phone, Grip, Backspace } from 'lucide-react';
+import { ArrowUp, ArrowDown, ArrowLeft, ArrowRight, Phone, Grip, Delete } from 'lucide-react';
 
 interface KeypadProps {
   onKeyPress: (key: string) => void;
@@ -48,7 +48,7 @@ export function Keypad({ onKeyPress }: KeypadProps) {
             let icon;
             if (key === '1') icon = <Grip className="w-4 h-4" />;
             if (key === '*') icon = <span className="text-2xl">*</span>;
-            if (key === '#') icon = <Backspace className="w-5 h-5" />;
+            if (key === '#') icon = <Delete className="w-5 h-5" />;
           return (
             <KeypadButton key={key} onClick={() => onKeyPress(key)}>
               {icon || key}

@@ -96,7 +96,7 @@ export const useKeypad = () => {
     const handleKeyPress = useCallback((key: string) => {
         switch (view) {
             case 'HOME':
-                if (key === '1') { setView('STATIONS'); setActiveIndex(0); }
+                if (key === '1') { setView('STATIONS'); setActiveIndex(0); setFilteredStations(allStations); }
                 else if (key === '2') { setView('SEARCH'); setActiveIndex(0); setSearchTerm(''); setFilteredStations(allStations); }
                 else if (key === '3') { 
                   const presetStations = allStations.filter(s => presets.includes(s.id));
@@ -107,7 +107,6 @@ export const useKeypad = () => {
                 break;
             
             case 'STATIONS':
-            case 'SEARCH':
             case 'PRESETS':
                 if (key === 'ArrowUp') handleListNavigation('up', filteredStations);
                 else if (key === 'ArrowDown') handleListNavigation('down', filteredStations);
@@ -117,7 +116,17 @@ export const useKeypad = () => {
                     }
                 }
                 else if (key === '*') { setView('HOME'); }
-                else if (view === 'SEARCH') {
+                break;
+            case 'SEARCH':
+                 if (key === 'ArrowUp') handleListNavigation('up', filteredStations);
+                else if (key === 'ArrowDown') handleListNavigation('down', filteredStations);
+                else if (key === 'Enter') {
+                    if (filteredStations[activeIndex]) {
+                        playStation(filteredStations[activeIndex]);
+                    }
+                }
+                else if (key === '*') { setView('HOME'); }
+                else {
                     if (key >= '2' && key <= '9') {
                         const chars = T9_MAP[key];
                         if (t9TimeoutRef.current) clearTimeout(t9TimeoutRef.current);
@@ -134,7 +143,7 @@ export const useKeypad = () => {
                         handleSearch(newSearchTerm);
 
                         t9TimeoutRef.current = setTimeout(() => setLastKeyPressed({ key: '', charIndex: 0 }), 1200);
-                    } else if (key === 'Backspace') {
+                    } else if (key === '#') {
                         handleSearch(searchTerm.slice(0, -1));
                     }
                 }
@@ -145,7 +154,8 @@ export const useKeypad = () => {
                 else if (key === '*') {
                     audioRef.current?.pause();
                     setIsPlaying(false);
-                    setView('STATIONS');
+                    const previousView = presets.includes(currentStation?.id || '') ? 'PRESETS' : 'STATIONS';
+                    setView(previousView);
                 }
                 else if(key === '7') addToPresets();
                 break;
@@ -155,7 +165,28 @@ export const useKeypad = () => {
     useEffect(() => {
         const keydownHandler = (e: KeyboardEvent) => {
             e.preventDefault();
-            handleKeyPress(e.key);
+            // Map numpad keys to regular number keys
+            if (e.code.startsWith('Numpad')) {
+                if(e.code === 'NumpadEnter') {
+                    handleKeyPress('Enter');
+                    return;
+                }
+                if (e.code === 'NumpadMultiply') {
+                    handleKeyPress('*');
+                    return;
+                }
+                 if (e.code === 'NumpadDecimal' || e.code === 'NumpadBackspace') { 
+                    handleKeyPress('#');
+                    return;
+                }
+                const digit = e.code.replace('Numpad', '');
+                handleKeyPress(digit);
+            } else if (e.key === 'Backspace') {
+                handleKeyPress('#');
+            }
+            else {
+                handleKeyPress(e.key);
+            }
         };
         window.addEventListener('keydown', keydownHandler);
         return () => window.removeEventListener('keydown', keydownHandler);
@@ -173,6 +204,7 @@ export const useKeypad = () => {
         handleKeyPress,
         allStations,
         setActiveIndex,
+        setFilteredStations,
         setView
     };
 };
