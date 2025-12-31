@@ -1,3 +1,52 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "radio-1",
+      "description": "Radio Foorti logo placeholder",
+      "imageUrl": "https://images.unsplash.com/photo-1572506582268-82b2ea2d395f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxyYWRpbyUyMGxvZ298ZW58MHx8fHwxNzY3MTE2NzQ1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "radio logo"
+    },
+    {
+      "id": "radio-2",
+      "description": "ABC Radio logo placeholder",
+      "imageUrl": "https://images.unsplash.com/photo-1762098061682-9833c71a2fdb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxyYWRpbyUyMGxvZ298ZW58MHx8fHwxNzY3MTE2NzQ1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "radio logo"
+    },
+    {
+      "id": "radio-3",
+      "description": "Dhaka FM logo placeholder",
+      "imageUrl": "https://images.unsplash.com/photo-1626713049920-0899f358d56b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8cmFkaW8lMjBsb2dvfGVufDB8fHx8MTc2NzExNjc0NXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "radio logo"
+    },
+    {
+      "id": "radio-4",
+      "description": "Radio Today logo placeholder",
+      "imageUrl": "https://images.unsplash.com/photo-1672247848197-58f05bc42442?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxyYWRpbyUyMGxvZ298ZW58MHx8fHwxNzY3MTE2NzQ1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "radio logo"
+    },
+    {
+      "id": "radio-5",
+      "description": "Jago FM logo placeholder",
+      "imageUrl": "https://images.unsplash.com/photo-1572506582268-82b2ea2d395f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxyYWRpbyUyMGxvZ298ZW58MHx8fHwxNzY3MTE2NzQ1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "radio logo"
+    },
+    {
+      "id": "radio-6",
+      "description": "Colours FM logo placeholder",
+      "imageUrl": "https://images.unsplash.com/photo-1758144217216-164dfbb67c64?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxyYWRpbyUyMGxvZ298ZW58MHx8fHwxNzY3MTE2NzQ1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "radio logo"
+    },
+    {
+      "id": "radio-7",
+      "description": "Capital FM logo placeholder",
+      "imageUrl": "https://images.unsplash.com/photo-1762098061682-9833c71a2fdb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxyYWRpbyUyMGxvZ298ZW58MHx8fHwxNzY3MTE2NzQ1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "radio logo"
+    },
+    {
+      "id": "radio-8",
+      "description": "Bangla Radio logo placeholder",
+      "imageUrl": "https://images.unsplash.com/photo-1741088996480-5e4158b56396?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxyYWRpbyUyMGxvZ298ZW58MHx8fHwxNzY3MTE2NzQ1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "radio logo"
+    }
+  ]
 }
