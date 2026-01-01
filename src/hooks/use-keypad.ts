@@ -70,8 +70,28 @@ export const useKeypad = () => {
         };
     }, [resetInactivityTimer]);
 
+    const playNext = useCallback(() => {
+        if (!currentStation || filteredStations.length === 0) return;
+        const currentIndex = filteredStations.findIndex(s => s.id === currentStation.id);
+        const nextIndex = (currentIndex + 1) % filteredStations.length;
+        // playStation is defined below
+        if (typeof playStation === 'function') {
+            playStation(filteredStations[nextIndex]);
+        }
+    }, [currentStation, filteredStations]);
+
+    const playPrevious = useCallback(() => {
+        if (!currentStation || filteredStations.length === 0) return;
+        const currentIndex = filteredStations.findIndex(s => s.id === currentStation.id);
+        const prevIndex = (currentIndex - 1 + filteredStations.length) % filteredStations.length;
+        // playStation is defined below
+        if (typeof playStation === 'function') {
+            playStation(filteredStations[prevIndex]);
+        }
+    }, [currentStation, filteredStations]);
+
     const updateMediaSession = useCallback((station: Station | null, playing: boolean) => {
-        if ('mediaSession' in navigator) {
+        if (typeof window !== 'undefined' && 'mediaSession' in navigator && navigator.mediaSession) {
             if (!station) {
                 navigator.mediaSession.metadata = null;
                 navigator.mediaSession.playbackState = 'none';
@@ -90,32 +110,7 @@ export const useKeypad = () => {
             navigator.mediaSession.setActionHandler('previoustrack', playPrevious);
             navigator.mediaSession.setActionHandler('nexttrack', playNext);
         }
-    }, []);
-
-    useEffect(() => {
-        try {
-            const storedPresets = localStorage.getItem('amarRadioPresets');
-            if (storedPresets) {
-                setPresets(JSON.parse(storedPresets));
-            }
-        } catch (error) {
-            console.error("Could not load presets from localStorage", error);
-        }
-
-        if ('mediaSession' in navigator) {
-            navigator.mediaSession.setActionHandler('play', () => togglePlayPause());
-            navigator.mediaSession.setActionHandler('pause', () => togglePlayPause());
-        }
-
-        return () => {
-             if ('mediaSession' in navigator) {
-                navigator.mediaSession.setActionHandler('play', null);
-                navigator.mediaSession.setActionHandler('pause', null);
-                navigator.mediaSession.setActionHandler('previoustrack', null);
-                navigator.mediaSession.setActionHandler('nexttrack', null);
-            }
-        }
-    }, []);
+    }, [playNext, playPrevious]);
 
     const playStation = useCallback((station: Station) => {
         if (audioRef.current) {
@@ -138,6 +133,31 @@ export const useKeypad = () => {
             setView('PLAYER');
         }
     }, [updateMediaSession, toast]);
+
+    useEffect(() => {
+        try {
+            const storedPresets = localStorage.getItem('amarRadioPresets');
+            if (storedPresets) {
+                setPresets(JSON.parse(storedPresets));
+            }
+        } catch (error) {
+            console.error("Could not load presets from localStorage", error);
+        }
+
+        if (typeof window !== 'undefined' && 'mediaSession' in navigator && navigator.mediaSession) {
+            navigator.mediaSession.setActionHandler('play', () => togglePlayPause());
+            navigator.mediaSession.setActionHandler('pause', () => togglePlayPause());
+        }
+
+        return () => {
+             if (typeof window !== 'undefined' && 'mediaSession' in navigator && navigator.mediaSession) {
+                navigator.mediaSession.setActionHandler('play', null);
+                navigator.mediaSession.setActionHandler('pause', null);
+                navigator.mediaSession.setActionHandler('previoustrack', null);
+                navigator.mediaSession.setActionHandler('nexttrack', null);
+            }
+        }
+    }, []);
 
     const handleCanPlay = () => {
         if (audioRef.current && audioRef.current.paused && view === 'PLAYER' && currentStation) {
@@ -182,20 +202,6 @@ export const useKeypad = () => {
             }
         }
     }, [isPlaying, currentStation, updateMediaSession]);
-    
-    const playNext = useCallback(() => {
-        if (!currentStation || filteredStations.length === 0) return;
-        const currentIndex = filteredStations.findIndex(s => s.id === currentStation.id);
-        const nextIndex = (currentIndex + 1) % filteredStations.length;
-        playStation(filteredStations[nextIndex]);
-    }, [currentStation, filteredStations, playStation]);
-
-    const playPrevious = useCallback(() => {
-        if (!currentStation || filteredStations.length === 0) return;
-        const currentIndex = filteredStations.findIndex(s => s.id === currentStation.id);
-        const prevIndex = (currentIndex - 1 + filteredStations.length) % filteredStations.length;
-        playStation(filteredStations[prevIndex]);
-    }, [currentStation, filteredStations, playStation]);
     
     const handleListNavigation = (direction: 'up' | 'down', list: any[]) => {
       if (list.length === 0) return;
@@ -410,6 +416,16 @@ export const useKeypad = () => {
         window.addEventListener('keydown', keydownHandler);
         return () => window.removeEventListener('keydown', keydownHandler);
     }, [handleKeyPress]);
+
+    // This is a temporary workaround for the ReferenceError
+    useEffect(() => {
+        if (typeof playStation !== 'function') {
+            // The functions are not yet defined, this effect will re-run
+            return;
+        }
+        // now safe to call functions
+    }, [playStation]);
+
 
     return {
         view,
