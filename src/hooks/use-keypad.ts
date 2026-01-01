@@ -37,6 +37,10 @@ export const useKeypad = () => {
     const [isScreenOn, setIsScreenOn] = useState(true);
     const inactivityTimerRef = useRef<NodeJS.Timeout | null>(null);
 
+    const [isRecording, setIsRecording] = useState(false);
+    const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+    const recordedChunksRef = useRef<Blob[]>([]);
+
     const resetInactivityTimer = useCallback(() => {
         if (inactivityTimerRef.current) {
             clearTimeout(inactivityTimerRef.current);
@@ -115,6 +119,7 @@ export const useKeypad = () => {
 
     const playStation = useCallback((station: Station) => {
         if (audioRef.current) {
+            audioRef.current.crossOrigin = "anonymous";
             audioRef.current.src = station.streamUrl;
             audioRef.current.load();
             const playPromise = audioRef.current.play();
@@ -126,12 +131,13 @@ export const useKeypad = () => {
                     console.error("Playback failed", e);
                     setIsPlaying(false);
                     updateMediaSession(station, false);
+                    toast({ variant: "destructive", title: "Playback Error", description: "Could not play station. The stream may be offline or unavailable." });
                 });
             }
             setCurrentStation(station);
             setView('PLAYER');
         }
-    }, [updateMediaSession]);
+    }, [updateMediaSession, toast]);
 
     const handleCanPlay = () => {
         if (audioRef.current && audioRef.current.paused && view === 'PLAYER' && currentStation) {
@@ -157,8 +163,8 @@ export const useKeypad = () => {
             updateMediaSession(currentStation, false);
         } else {
              if (audioRef.current) {
-                // If src is not set, set it first
                 if (audioRef.current.src !== currentStation.streamUrl) {
+                    audioRef.current.crossOrigin = "anonymous";
                     audioRef.current.src = currentStation.streamUrl;
                     audioRef.current.load();
                 }
@@ -228,6 +234,62 @@ export const useKeypad = () => {
         }
         setActiveIndex(0);
     }
+
+     const startRecording = useCallback(() => {
+        if (!audioRef.current || !('captureStream' in audioRef.current)) {
+            toast({ variant: "destructive", title: "Recording Error", description: "Recording is not supported in your browser." });
+            return;
+        }
+
+        try {
+            const stream = (audioRef.current as any).captureStream();
+            mediaRecorderRef.current = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+            recordedChunksRef.current = [];
+
+            mediaRecorderRef.current.ondataavailable = (event) => {
+                if (event.data.size > 0) {
+                    recordedChunksRef.current.push(event.data);
+                }
+            };
+
+            mediaRecorderRef.current.onstop = () => {
+                const blob = new Blob(recordedChunksRef.current, { type: 'audio/wav' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                a.download = `AmarRadio-${currentStation?.name.replace(/ /g, '_') ?? 'recording'}-${new Date().toISOString()}.wav`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+                toast({ title: "Recording Saved", description: "Your recording has been downloaded." });
+            };
+
+            mediaRecorderRef.current.start();
+            setIsRecording(true);
+            toast({ title: "Recording Started" });
+        } catch (error) {
+            console.error("Error starting recording:", error);
+            toast({ variant: "destructive", title: "Recording Error", description: "Could not start recording. Check browser permissions." });
+        }
+    }, [toast, currentStation]);
+
+    const stopRecording = useCallback(() => {
+        if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
+            mediaRecorderRef.current.stop();
+            setIsRecording(false);
+        }
+    }, []);
+
+    const toggleRecording = useCallback(() => {
+        if (isRecording) {
+            stopRecording();
+        } else {
+            startRecording();
+        }
+    }, [isRecording, startRecording, stopRecording]);
+
 
     const handleKeyPress = useCallback((key: string) => {
         if (wakeScreen()) {
@@ -300,7 +362,10 @@ export const useKeypad = () => {
                 break;
 
             case 'PLAYER':
-                if (key === '5' || key === 'Enter') togglePlayPause();
+                 if (key === '8') {
+                    toggleRecording();
+                }
+                else if (key === '5' || key === 'Enter') togglePlayPause();
                 else if (key === 'ArrowUp') playPrevious();
                 else if (key === 'ArrowDown') playNext();
                 else if (key === 'ArrowRight') playNext();
@@ -314,7 +379,7 @@ export const useKeypad = () => {
                 else if(key === '7') addToPresets();
                 break;
         }
-    }, [view, activeIndex, filteredStations, playStation, togglePlayPause, addToPresets, allStations, presets, searchTerm, lastKeyPressed, currentStation, updateMediaSession, playNext, playPrevious, wakeScreen]);
+    }, [view, activeIndex, filteredStations, playStation, togglePlayPause, addToPresets, allStations, presets, searchTerm, lastKeyPressed, currentStation, updateMediaSession, playNext, playPrevious, wakeScreen, toggleRecording]);
 
     useEffect(() => {
         const keydownHandler = (e: KeyboardEvent) => {
@@ -356,6 +421,8 @@ export const useKeypad = () => {
         searchTerm,
         audioRef,
         isScreenOn,
+        isRecording,
+        toggleRecording,
         handleKeyPress,
         handleCanPlay,
         allStations,

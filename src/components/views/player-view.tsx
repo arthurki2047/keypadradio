@@ -2,12 +2,12 @@
 "use client";
 import type { useKeypad } from "@/hooks/use-keypad";
 import Image from "next/image";
-import { Home, List, Music, Star, Play, Pause, SkipBack, SkipForward, ArrowUp, ArrowDown } from 'lucide-react';
+import { Home, List, Music, Star, Play, Pause, SkipBack, SkipForward, ArrowUp, ArrowDown, Mic, Square } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 
 type PlayerViewProps = ReturnType<typeof useKeypad>;
 
-export function PlayerView({ currentStation, isPlaying, togglePlayPause, playNext, playPrevious }: PlayerViewProps) {
+export function PlayerView({ currentStation, isPlaying, togglePlayPause, playNext, playPrevious, isRecording, toggleRecording }: PlayerViewProps) {
   if (!currentStation) return null;
 
   return (
@@ -40,6 +40,13 @@ export function PlayerView({ currentStation, isPlaying, togglePlayPause, playNex
         </Button>
         <Button onClick={playNext} variant="ghost" size="icon" className="h-14 w-14 rounded-full">
             <SkipForward className="w-8 h-8" />
+        </Button>
+      </div>
+
+       <div className="mt-4">
+        <Button onClick={toggleRecording} variant={isRecording ? 'destructive' : 'outline'} size="lg" className={`w-48 rounded-full transition-all ${isRecording ? 'animate-pulse' : ''}`}>
+          {isRecording ? <Square className="mr-2" /> : <Mic className="mr-2" />}
+          {isRecording ? 'Stop Recording' : 'Record to File'}
         </Button>
       </div>
 
