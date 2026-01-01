@@ -3,6 +3,7 @@
 import { Screen } from './screen';
 import { useKeypad } from '@/hooks/use-keypad';
 import { Clock } from './clock';
+import { TouchControls } from './touch-controls';
 
 type PhoneProps = ReturnType<typeof useKeypad>;
 
@@ -17,6 +18,7 @@ export function Phone(props: PhoneProps) {
                 <div className="flex-1 w-full bg-background overflow-hidden relative">
                     <Screen {...props} />
                 </div>
+                <TouchControls onKeyPress={props.handleKeyPress} />
             </div>
         </div>
     );
