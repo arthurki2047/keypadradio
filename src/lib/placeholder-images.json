@@ -77,6 +77,12 @@
       "description": "Air Rainbow Kolkata logo placeholder",
       "imageUrl": "https://images.unsplash.com/photo-1599383827432-861318991b17?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxrb2xrYXRhJTIwcmFpbmJvd3xlbnwwfHx8fDE3NjcyOTg3NTV8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "kolkata rainbow"
+    },
+    {
+      "id": "radio-14",
+      "description": "Kolkata Geetanjali logo placeholder",
+      "imageUrl": "https://images.unsplash.com/photo-1542893532-819777325175?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxiZW5nYWxpJTIwcG9ldHJ5fGVufDB8fHx8MTc2NzMwMjYxNnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "bengali poetry"
     }
   ]
 }
