@@ -1,11 +1,13 @@
+
 "use client";
 import type { useKeypad } from "@/hooks/use-keypad";
 import Image from "next/image";
-import { Home, List, Music, Star } from 'lucide-react';
+import { Home, List, Music, Star, Play, Pause, SkipBack, SkipForward } from 'lucide-react';
+import { Button } from "@/components/ui/button";
 
 type PlayerViewProps = ReturnType<typeof useKeypad>;
 
-export function PlayerView({ currentStation, isPlaying }: PlayerViewProps) {
+export function PlayerView({ currentStation, isPlaying, togglePlayPause, playNext, playPrevious }: PlayerViewProps) {
   if (!currentStation) return null;
 
   return (
@@ -26,12 +28,22 @@ export function PlayerView({ currentStation, isPlaying }: PlayerViewProps) {
           </div>
         )}
       </div>
-      <h3 className="text-2xl font-headline font-bold text-foreground">{currentStation.name}</h3>
-      <p className="text-muted-foreground">{isPlaying ? 'Now Playing' : 'Paused'}</p>
+      <h3 className="text-xl font-headline font-bold text-foreground truncate max-w-full px-4">{currentStation.name}</h3>
+      <p className="text-muted-foreground text-sm">{isPlaying ? 'Now Playing' : 'Paused'}</p>
+
+      <div className="flex items-center gap-4 my-6">
+        <Button onClick={playPrevious} variant="ghost" size="icon" className="h-14 w-14 rounded-full">
+            <SkipBack className="w-8 h-8" />
+        </Button>
+        <Button onClick={togglePlayPause} variant="default" size="icon" className="h-20 w-20 rounded-full shadow-lg">
+            {isPlaying ? <Pause className="w-10 h-10" /> : <Play className="w-10 h-10 ml-1" />}
+        </Button>
+        <Button onClick={playNext} variant="ghost" size="icon" className="h-14 w-14 rounded-full">
+            <SkipForward className="w-8 h-8" />
+        </Button>
+      </div>
+
       <div className="mt-auto text-xs text-muted-foreground space-y-1">
-        <p>
-            <span className="font-bold p-1 bg-gray-200 dark:bg-gray-700 rounded">5</span> Play/Pause
-        </p>
         <p>
             <span className="font-bold p-1 bg-gray-200 dark:bg-gray-700 rounded">7</span> Add to Presets <Star className="inline w-3 h-3 text-amber-400"/>
         </p>

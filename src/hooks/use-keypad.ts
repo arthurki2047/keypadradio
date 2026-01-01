@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from 'react';
@@ -47,6 +48,9 @@ export const useKeypad = () => {
                 ],
             });
             navigator.mediaSession.playbackState = playing ? 'playing' : 'paused';
+            
+            navigator.mediaSession.setActionHandler('previoustrack', playPrevious);
+            navigator.mediaSession.setActionHandler('nexttrack', playNext);
         }
     }, []);
 
@@ -69,31 +73,31 @@ export const useKeypad = () => {
              if ('mediaSession' in navigator) {
                 navigator.mediaSession.setActionHandler('play', null);
                 navigator.mediaSession.setActionHandler('pause', null);
+                navigator.mediaSession.setActionHandler('previoustrack', null);
+                navigator.mediaSession.setActionHandler('nexttrack', null);
             }
         }
     }, []);
 
     const playStation = useCallback((station: Station) => {
         if (audioRef.current) {
-            if (currentStation?.id !== station.id || !isPlaying) {
-                audioRef.current.src = station.streamUrl;
-                audioRef.current.load();
-                const playPromise = audioRef.current.play();
-                if (playPromise !== undefined) {
-                    playPromise.then(() => {
-                        setIsPlaying(true);
-                        updateMediaSession(station, true);
-                    }).catch(e => {
-                        console.error("Playback failed", e);
-                        setIsPlaying(false);
-                        updateMediaSession(station, false);
-                    });
-                }
+            audioRef.current.src = station.streamUrl;
+            audioRef.current.load();
+            const playPromise = audioRef.current.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    setIsPlaying(true);
+                    updateMediaSession(station, true);
+                }).catch(e => {
+                    console.error("Playback failed", e);
+                    setIsPlaying(false);
+                    updateMediaSession(station, false);
+                });
             }
             setCurrentStation(station);
             setView('PLAYER');
         }
-    }, [currentStation, isPlaying, updateMediaSession]);
+    }, [updateMediaSession]);
 
     const handleCanPlay = () => {
         if (audioRef.current && audioRef.current.paused && view === 'PLAYER' && currentStation) {
@@ -119,6 +123,11 @@ export const useKeypad = () => {
             updateMediaSession(currentStation, false);
         } else {
              if (audioRef.current) {
+                // If src is not set, set it first
+                if (audioRef.current.src !== currentStation.streamUrl) {
+                    audioRef.current.src = currentStation.streamUrl;
+                    audioRef.current.load();
+                }
                 const playPromise = audioRef.current.play();
                 if (playPromise !== undefined) {
                     playPromise.then(() => {
@@ -133,6 +142,20 @@ export const useKeypad = () => {
             }
         }
     }, [isPlaying, currentStation, updateMediaSession]);
+    
+    const playNext = useCallback(() => {
+        if (!currentStation || filteredStations.length === 0) return;
+        const currentIndex = filteredStations.findIndex(s => s.id === currentStation.id);
+        const nextIndex = (currentIndex + 1) % filteredStations.length;
+        playStation(filteredStations[nextIndex]);
+    }, [currentStation, filteredStations, playStation]);
+
+    const playPrevious = useCallback(() => {
+        if (!currentStation || filteredStations.length === 0) return;
+        const currentIndex = filteredStations.findIndex(s => s.id === currentStation.id);
+        const prevIndex = (currentIndex - 1 + filteredStations.length) % filteredStations.length;
+        playStation(filteredStations[prevIndex]);
+    }, [currentStation, filteredStations, playStation]);
     
     const handleListNavigation = (direction: 'up' | 'down', list: any[]) => {
       if (list.length === 0) return;
@@ -175,7 +198,7 @@ export const useKeypad = () => {
     const handleKeyPress = useCallback((key: string) => {
         switch (view) {
             case 'HOME':
-                 if (key === 'ArrowUp') handleListNavigation('up', homeMenuItems);
+                if (key === 'ArrowUp') handleListNavigation('up', homeMenuItems);
                 else if (key === 'ArrowDown') handleListNavigation('down', homeMenuItems);
                 else if (key === 'Enter' || (key >= '1' && key <= '3')) {
                     let targetIndex = activeIndex;
@@ -210,7 +233,7 @@ export const useKeypad = () => {
                         playStation(filteredStations[activeIndex]);
                     }
                 }
-                else if (key === '*') { setView('HOME'); setActiveIndex(0); }
+                else if (key === '*' || key === '#') { setView('HOME'); setActiveIndex(0); }
                 else if (view === 'SEARCH') {
                     if (key >= '2' && key <= '9') {
                         const chars = T9_MAP[key];
@@ -233,31 +256,24 @@ export const useKeypad = () => {
                         setLastKeyPressed({ key: '', charIndex: 0 });
                         if (t9TimeoutRef.current) clearTimeout(t9TimeoutRef.current);
                     }
-                } else if (key === '#') {
-                    setView('HOME'); 
-                    setActiveIndex(0);
                 }
                 break;
 
             case 'PLAYER':
-                if (key === '5') togglePlayPause();
+                if (key === '5' || key === 'Enter') togglePlayPause();
+                else if (key === 'ArrowRight') playNext();
+                else if (key === 'ArrowLeft') playPrevious();
                 else if (key === '*' || key === '#') {
-                    audioRef.current?.pause();
-                    setIsPlaying(false);
-                    updateMediaSession(null, false);
-                    const previousView = currentStation && presets.includes(currentStation.id) ? 'PRESETS' : 'STATIONS';
-                    setView(previousView);
+                    const previousList = view === 'SEARCH' ? 'SEARCH' : (currentStation && presets.includes(currentStation.id) ? 'PRESETS' : 'STATIONS');
+                    setView(previousList);
                 }
                 else if (key === '1') {
-                  audioRef.current?.pause();
-                  setIsPlaying(false);
-                  updateMediaSession(null, false);
                   setView('HOME');
                 }
                 else if(key === '7') addToPresets();
                 break;
         }
-    }, [view, activeIndex, filteredStations, playStation, togglePlayPause, addToPresets, allStations, presets, searchTerm, lastKeyPressed, currentStation, updateMediaSession]);
+    }, [view, activeIndex, filteredStations, playStation, togglePlayPause, addToPresets, allStations, presets, searchTerm, lastKeyPressed, currentStation, updateMediaSession, playNext, playPrevious]);
 
     useEffect(() => {
         const keydownHandler = (e: KeyboardEvent) => {
@@ -303,6 +319,9 @@ export const useKeypad = () => {
         allStations,
         setActiveIndex,
         setFilteredStations,
-        setView
+        setView,
+        togglePlayPause,
+        playNext,
+        playPrevious,
     };
 };
