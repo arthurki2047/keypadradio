@@ -2,7 +2,7 @@
 "use client";
 import type { useKeypad } from "@/hooks/use-keypad";
 import Image from "next/image";
-import { Home, List, Music, Star, Play, Pause, SkipBack, SkipForward } from 'lucide-react';
+import { Home, List, Music, Star, Play, Pause, SkipBack, SkipForward, ArrowUp, ArrowDown } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 
 type PlayerViewProps = ReturnType<typeof useKeypad>;
@@ -44,6 +44,9 @@ export function PlayerView({ currentStation, isPlaying, togglePlayPause, playNex
       </div>
 
       <div className="mt-auto text-xs text-muted-foreground space-y-1">
+         <p>
+            Use <ArrowUp className="inline w-3 h-3"/> / <ArrowDown className="inline w-3 h-3"/> to change stations.
+        </p>
         <p>
             <span className="font-bold p-1 bg-gray-200 dark:bg-gray-700 rounded">7</span> Add to Presets <Star className="inline w-3 h-3 text-amber-400"/>
         </p>

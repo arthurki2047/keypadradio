@@ -1,7 +1,6 @@
 "use client";
 
 import { Screen } from './screen';
-import { Keypad } from './keypad';
 import { useKeypad } from '@/hooks/use-keypad';
 import { Clock } from './clock';
 
@@ -16,9 +15,6 @@ export function Phone(props: PhoneProps) {
                     <Clock />
                 </div>
                 <Screen {...props} />
-            </div>
-            <div className="absolute bottom-0 left-0 right-0">
-                <Keypad onKeyPress={props.handleKeyPress} />
             </div>
         </div>
     );

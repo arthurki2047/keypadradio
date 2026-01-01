@@ -220,6 +220,8 @@ export const useKeypad = () => {
                         setView(selectedItem.view);
                         setActiveIndex(0);
                     }
+                } else if (key === 'ArrowLeft' || key === '*') {
+                    // Go back from home is not a feature
                 }
                 break;
             
@@ -233,7 +235,7 @@ export const useKeypad = () => {
                         playStation(filteredStations[activeIndex]);
                     }
                 }
-                else if (key === '*' || key === '#') { setView('HOME'); setActiveIndex(0); }
+                else if (key === 'ArrowLeft' || key === '*' || key === '#') { setView('HOME'); setActiveIndex(0); }
                 else if (view === 'SEARCH') {
                     if (key >= '2' && key <= '9') {
                         const chars = T9_MAP[key];
@@ -261,10 +263,11 @@ export const useKeypad = () => {
 
             case 'PLAYER':
                 if (key === '5' || key === 'Enter') togglePlayPause();
+                else if (key === 'ArrowUp') playPrevious();
+                else if (key === 'ArrowDown') playNext();
                 else if (key === 'ArrowRight') playNext();
-                else if (key === 'ArrowLeft') playPrevious();
-                else if (key === '*' || key === '#') {
-                    const previousList = view === 'SEARCH' ? 'SEARCH' : (currentStation && presets.includes(currentStation.id) ? 'PRESETS' : 'STATIONS');
+                else if (key === 'ArrowLeft' || key === '*') {
+                    const previousList = currentStation && presets.includes(currentStation.id) ? 'PRESETS' : 'STATIONS';
                     setView(previousList);
                 }
                 else if (key === '1') {
