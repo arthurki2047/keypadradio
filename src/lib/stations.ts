@@ -7,4 +7,5 @@ const getImageUrl = (id: string) => imageUrls.find((i) => i.id === id)?.imageUrl
 
 export const stations: Station[] = [
   { id: 's9', name: 'AIR Kolkata', streamUrl: 'https://airhlspush.pc.cdn.bitgravity.com/httppush/hlspbaudio055/hlspbaudio05564kbps.m3u8', logoUrl: getImageUrl('radio-9') },
+  { id: 's10', name: 'Live News 24x7', streamUrl: 'https://air.pc.cdn.bitgravity.com/air/live/pbaudio001/playlist.m3u8', logoUrl: getImageUrl('radio-10') },
 ];
