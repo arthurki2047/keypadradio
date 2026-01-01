@@ -3,86 +3,86 @@
     {
       "id": "radio-1",
       "description": "Radio Foorti logo placeholder",
-      "imageUrl": "https://images.unsplash.com/photo-1742483377692-a197c936e6db?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxrb2xrYXRhJTIwbXVzaWN8ZW58MHx8fHwxNzY3Mjc2NjExfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "kolkata music"
+      "imageUrl": "https://images.unsplash.com/photo-1590099512555-320d91d6c1f1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxiZW5nYWxpJTIwd2VkZGluZ3xlbnwwfHx8fDE3Njc1NDQ5MTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "bengali wedding"
     },
     {
       "id": "radio-2",
       "description": "ABC Radio logo placeholder",
-      "imageUrl": "https://images.unsplash.com/photo-1662267487228-a59821ecbdcb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8ZGhha2ElMjBzdHJlZXR8ZW58MHx8fHwxNzY3Mjc2NjExfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "dhaka street"
+      "imageUrl": "https://images.unsplash.com/photo-1595834839864-b0a0a7e6d01c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxkaGFrYSUyMHJpY2tzaGF3fGVufDB8fHx8MTc2NzU0NTA4NHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "dhaka rickshaw"
     },
     {
       "id": "radio-3",
       "description": "Dhaka FM logo placeholder",
-      "imageUrl": "https://images.unsplash.com/photo-1719558027686-04b38e96efaf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxiYW5nbGFkZXNoJTIwbXVzaWN8ZW58MHx8fHwxNzY3Mjc2NjExfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "bangladesh music"
+      "imageUrl": "https://images.unsplash.com/photo-1605940409411-a831519a43a0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxiYW5nbGFkZXNoJTIwYm9hdHxlbnwwfHx8fDE3Njc1NDUxMTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "bangladesh boat"
     },
     {
       "id": "radio-4",
       "description": "Radio Today logo placeholder",
-      "imageUrl": "https://images.unsplash.com/photo-1684556707134-2981ee31de27?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxpbmRpYSUyMHJhZGlvfGVufDB8fHx8MTc2NzI3NjYxMXww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "india radio"
+      "imageUrl": "https://images.unsplash.com/photo-1598555769741-da943fec7273?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxpbmRpYW4lMjB0ZW1wbGV8ZW58MHx8fHwxNzY3NTQ1MTQ5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "indian temple"
     },
     {
       "id": "radio-5",
       "description": "Jago FM logo placeholder",
-      "imageUrl": "https://images.unsplash.com/photo-1742483377635-e8b27a3f1498?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxiZW5nYWxpJTIwYXJ0fGVufDB8fHx8MTc2NzI3NjYxMXww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "bengali art"
+      "imageUrl": "https://images.unsplash.com/photo-1620766210355-32861c74a485?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxiZW5nYWxpJTIwY3Vpc2luZXxlbnwwfHx8fDE3Njc1NDUxODF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "bengali cuisine"
     },
     {
       "id": "radio-6",
       "description": "Colours FM logo placeholder",
-      "imageUrl": "https://images.unsplash.com/photo-1551757891-24a8dabd2708?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxob2xpJTIwZmVzdGl2YWx8ZW58MHx8fHwxNzY3Mjc2NjExfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "holi festival"
+      "imageUrl": "https://images.unsplash.com/photo-1593492285145-709597725943?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxkdXJnYSUyMHB1amF8ZW58MHx8fHwxNzY3NTQ1MjA3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "durga puja"
     },
     {
       "id": "radio-7",
       "description": "Capital FM logo placeholder",
-      "imageUrl": "https://images.unsplash.com/photo-1718799335095-02fbfae701b1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxpbmRpYSUyMGNpdHlzY2FwZXxlbnwwfHx8fDE3NjcyNzY2MTF8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "india cityscape"
+      "imageUrl": "https://images.unsplash.com/photo-1544026365-4f329973e34b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtdW1iYWklMjB0YXhpfGVufDB8fHx8MTc2NzU0NTIzNHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "mumbai taxi"
     },
     {
       "id": "radio-8",
       "description": "Bangla Radio logo placeholder",
-      "imageUrl": "https://images.unsplash.com/photo-1666208215349-ef6ca8209c32?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxiYW5nbGFkZXNoJTIwcGF0dGVybnxlbnwwfHx8fDE3NjcyNzY2MTF8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "bangladesh pattern"
+      "imageUrl": "https://images.unsplash.com/photo-1547823303-36c18a053198?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxiZW5nYWwlMjB0aWdlcnxlbnwwfHx8fDE3Njc1NDUyODR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "bengal tiger"
     },
     {
       "id": "radio-9",
       "description": "AIR Kolkata logo placeholder",
-      "imageUrl": "https://images.unsplash.com/photo-1677307816181-1446ab18913e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxrb2xrYXRhJTIwYnJpZGdlfGVufDB8fHx8MTc2NzE5Mjg2N3ww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "kolkata bridge"
+      "imageUrl": "https://images.unsplash.com/photo-1558431353-06b52784843b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxob3dyYWglMjBicmlkZ2V8ZW58MHx8fHwxNzY3NTQ1MzEwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "howrah bridge"
     },
     {
       "id": "radio-10",
       "description": "Vividh Bharati logo placeholder",
-      "imageUrl": "https://images.unsplash.com/photo-1633411988188-6e63354a9019?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxpbmRpYW4lMjBjbGFzc2ljYWx8ZW58MHx8fHwxNzY3Mjc2NjExfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "indian classical"
+      "imageUrl": "https://images.unsplash.com/photo-1605714323694-a953b0f59c1e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxpbmRpYW4lMjBtdXNpY2lhbnxlbnwwfHx8fDE3Njc1NDUzMzh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "indian musician"
     },
     {
       "id": "radio-11",
       "description": "AIR FM Gold (Kolkata) logo placeholder",
-      "imageUrl": "https://images.unsplash.com/photo-1649451899802-b455e613bcef?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxnb2xkJTIwdGVtcGxlfGVufDB8fHx8MTc2NzI3NjYxMXww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "gold temple"
+      "imageUrl": "https://images.unsplash.com/photo-1603217041431-9a7295717724?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtYXJpZ29sZCUyMGZsb3dlcnxlbnwwfHx8fDE3Njc1NDUzNjV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "marigold flower"
     },
     {
       "id": "radio-12",
       "description": "AIR Murshidabad logo placeholder",
-      "imageUrl": "https://images.unsplash.com/photo-1661704250540-a6915ae0ecc4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtdXJzaGlkYWJhZCUyMHBhbGFjZXxlbnwwfHx8fDE3NjcyNzY2MTF8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "murshidabad palace"
+      "imageUrl": "https://images.unsplash.com/photo-1548013146-72479768bada?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxpbmRpYW4lMjB0YWplc3RyeXxlbnwwfHx8fDE3Njc1NDUzOTR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "indian tapestry"
     },
     {
       "id": "radio-13",
       "description": "Air Rainbow Kolkata logo placeholder",
-      "imageUrl": "https://images.unsplash.com/photo-1599383827432-861318991b17?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxrb2xrYXRhJTIwcmFpbmJvd3xlbnwwfHx8fDE3NjcyOTg3NTV8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "kolkata rainbow"
+      "imageUrl": "https://images.unsplash.com/photo-1628177210636-f08985d85c3a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxpbmRpYW4lMjBwYWludGluZ3xlbnwwfHx8fDE3Njc1NDU0MjN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "indian painting"
     },
     {
       "id": "radio-14",
       "description": "Kolkata Geetanjali logo placeholder",
-      "imageUrl": "https://images.unsplash.com/photo-1542893532-819777325175?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxiZW5nYWxpJTIwcG9ldHJ5fGVufDB8fHx8MTc2NzMwMjYxNnww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "bengali poetry"
+      "imageUrl": "https://images.unsplash.com/photo-1604543169389-9e19c6778939?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx0YWdvcmUlMjBwb2V0cnl8ZW58MHx8fHwxNzY3NTQ1NDUzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "tagore poetry"
     }
   ]
 }
