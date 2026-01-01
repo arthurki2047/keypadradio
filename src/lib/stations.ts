@@ -10,4 +10,5 @@ export const stations: Station[] = [
   { id: 's10', name: 'Vividh Bharati', streamUrl: 'https://air.pc.cdn.bitgravity.com/air/live/pbaudio001/playlist.m3u8', logoUrl: getImageUrl('radio-10') },
   { id: 's11', name: 'AIR FM Gold (Kolkata)', streamUrl: 'https://airhlspush.pc.cdn.bitgravity.com/httppush/hlspbaudio057/hlspbaudio057_Auto.m3u8', logoUrl: getImageUrl('radio-11') },
   { id: 's12', name: 'AIR Murshidabad', streamUrl: 'https://air.pc.cdn.bitgravity.com/air/live/pbaudio169/playlist.m3u8', logoUrl: getImageUrl('radio-12') },
+  { id: 's13', name: 'Air Rainbow 107 Kolkata', streamUrl: 'https://airhlspush.pc.cdn.bitgravity.com/httppush/hlspbaudio058/hlspbaudio05864kbps.m3u8', logoUrl: getImageUrl('radio-13') },
 ];
