@@ -10,6 +10,12 @@ const T9_MAP: { [key: string]: string } = {
   '6': 'mno', '7': 'pqrs', '8': 'tuv', '9': 'wxyz',
 };
 
+const homeMenuItems = [
+  { label: "Stations", view: "STATIONS" as const },
+  { label: "Search", view: "SEARCH" as const },
+  { label: "Presets", view: "PRESETS" as const },
+];
+
 export const useKeypad = () => {
     const [view, setView] = useState<View>('HOME');
     const [allStations] = useState<Station[]>(stations);
@@ -96,7 +102,25 @@ export const useKeypad = () => {
     const handleKeyPress = useCallback((key: string) => {
         switch (view) {
             case 'HOME':
-                if (key === '1') { setView('STATIONS'); setActiveIndex(0); setFilteredStations(allStations); }
+                if (key === 'ArrowUp') handleListNavigation('up', homeMenuItems);
+                else if (key === 'ArrowDown') handleListNavigation('down', homeMenuItems);
+                else if (key === 'Enter') {
+                    const selectedItem = homeMenuItems[activeIndex];
+                    if (selectedItem) {
+                        if (selectedItem.view === 'SEARCH') {
+                            setSearchTerm(''); 
+                            setFilteredStations(allStations);
+                        } else if (selectedItem.view === 'STATIONS') {
+                            setFilteredStations(allStations);
+                        } else if (selectedItem.view === 'PRESETS') {
+                            const presetStations = allStations.filter(s => presets.includes(s.id));
+                            setFilteredStations(presetStations);
+                        }
+                        setView(selectedItem.view);
+                        setActiveIndex(0);
+                    }
+                }
+                else if (key === '1') { setView('STATIONS'); setActiveIndex(0); setFilteredStations(allStations); }
                 else if (key === '2') { setView('SEARCH'); setActiveIndex(0); setSearchTerm(''); setFilteredStations(allStations); }
                 else if (key === '3') { 
                   const presetStations = allStations.filter(s => presets.includes(s.id));
@@ -115,7 +139,7 @@ export const useKeypad = () => {
                         playStation(filteredStations[activeIndex]);
                     }
                 }
-                else if (key === '*' || key === '#') { setView('HOME'); }
+                else if (key === '*' || key === '#') { setView('HOME'); setActiveIndex(0); }
                 break;
             case 'SEARCH':
                  if (key === 'ArrowUp') handleListNavigation('up', filteredStations);
@@ -125,7 +149,7 @@ export const useKeypad = () => {
                         playStation(filteredStations[activeIndex]);
                     }
                 }
-                else if (key === '*') { setView('HOME'); }
+                else if (key === '*') { setView('HOME'); setActiveIndex(0); }
                 else {
                     if (key >= '2' && key <= '9') {
                         const chars = T9_MAP[key];
@@ -182,7 +206,7 @@ export const useKeypad = () => {
                     handleKeyPress('*');
                     return;
                 }
-                 if (e.code === 'NumpadDecimal' || e.code === 'NumpadBackspace') { 
+                 if (e.code === 'NumpadDecimal') { 
                     handleKeyPress('#');
                     return;
                 }
