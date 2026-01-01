@@ -3,85 +3,85 @@
     {
       "id": "radio-1",
       "description": "Radio Foorti logo placeholder",
-      "imageUrl": "https://images.unsplash.com/photo-1618923485754-56758f2d7448?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxiZW5nYWxpJTIwd2VkZGluZ3xlbnwwfHx8fDE3Njc1NDQ5MTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1732381915285-953ce9832512?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxiZW5nYWxpJTIwd2VkZGluZ3xlbnwwfHx8fDE3NjcyODExMjd8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "bengali wedding"
     },
     {
       "id": "radio-2",
       "description": "ABC Radio logo placeholder",
-      "imageUrl": "https://images.unsplash.com/photo-1594771216964-b0a3a60b9c73?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxkaGFrYSUyMHJpY2tzaGF3fGVufDB8fHx8fDE3Njc1NDUwODR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1722023617258-0dc056df5729?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxkaGFrYSUyMHJpY2tzaGF3fGVufDB8fHx8MTc2NzI4MTEyN3ww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "dhaka rickshaw"
     },
     {
       "id": "radio-3",
       "description": "Dhaka FM logo placeholder",
-      "imageUrl": "https://images.unsplash.com/photo-1587332241038-75c128c78491?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxiYW5nbGFkZXNoJTIwYm9hdHxlbnwwfHx8fDE3Njc1NDUxMTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1715079744991-f8d25f00ba8e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxiYW5nbGFkZXNoJTIwYm9hdHxlbnwwfHx8fDE3NjcyODExMjd8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "bangladesh boat"
     },
     {
       "id": "radio-4",
       "description": "Radio Today logo placeholder",
-      "imageUrl": "https://images.unsplash.com/photo-1598555769741-da943fec7273?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxpbmRpYW4lMjB0ZW1wbGV8ZW58MHx8fHwxNzY3NTQ1MTQ5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1721532865054-5da685de394c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8aW5kaWFuJTIwdGVtcGxlfGVufDB8fHx8MTc2NzI1NjgxMnww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "indian temple"
     },
     {
       "id": "radio-5",
       "description": "Jago FM logo placeholder",
-      "imageUrl": "https://images.unsplash.com/photo-1606491048802-8342506d8695?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxiZW5nYWxpJTIwY3Vpc2luZXxlbnwwfHx8fDE3Njc1NDUxODF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1654863404432-cac67587e25d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxiZW5nYWxpJTIwY3Vpc2luZXxlbnwwfHx8fDE3NjcxOTI4Njd8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "bengali cuisine"
     },
     {
       "id": "radio-6",
       "description": "Colours FM logo placeholder",
-      "imageUrl": "https://images.unsplash.com/photo-1633535284384-e9a66a15e6ad?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxkdXJnYSUyMHB1amF8ZW58MHx8fHwxNzY3NTQ1MjA3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1728921957696-2f8317480abf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxkdXJnYSUyMHB1amF8ZW58MHx8fHwxNzY3MTkyODY3fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "durga puja"
     },
     {
       "id": "radio-7",
       "description": "Capital FM logo placeholder",
-      "imageUrl": "https://images.unsplash.com/photo-1611283629498-8e6f1f582f34?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxtdW1iYWklMjB0YXhpfGVufDB8fHx8fDE3Njc1NDUyMzR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1659343796596-d476fe9fe22e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxtdW1iYWklMjB0YXhpfGVufDB8fHx8MTc2NzI4MTEyN3ww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "mumbai taxi"
     },
     {
       "id": "radio-8",
       "description": "Bangla Radio logo placeholder",
-      "imageUrl": "https://images.unsplash.com/photo-1614027164847-1b28accfb4cc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxiZW5nYWwlMjB0aWdlcnxlbnwwfHx8fDE3Njc1NDUyODR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1545462616-efed1939219f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxiZW5nYWwlMjB0aWdlcnxlbnwwfHx8fDE3NjcyODExMjd8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "bengal tiger"
     },
     {
       "id": "radio-9",
       "description": "AIR Kolkata logo placeholder",
-      "imageUrl": "https://images.unsplash.com/photo-1596763462991-230f8c8702b8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxob3dyYWglMjBicmlkZ2V8ZW58MHx8fHwxNzY3NTQ1MzEwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1702365202240-ecf532732c76?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxob3dyYWglMjBicmlkZ2V8ZW58MHx8fHwxNzY3MjgxMTI3fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "howrah bridge"
     },
     {
       "id": "radio-10",
       "description": "Vividh Bharati logo placeholder",
-      "imageUrl": "https://images.unsplash.com/photo-1619992523275-e7c9f6a78a63?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxpbmRpYW4lMjBtdXNpY2lhbnxlbnwwfHx8fDE3Njc1NDUzMzh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1683023939473-4ef10250b966?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxpbmRpYW4lMjBtdXNpY2lhbnxlbnwwfHx8fDE3NjcyODExMjd8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "indian musician"
     },
     {
       "id": "radio-11",
       "description": "AIR FM Gold (Kolkata) logo placeholder",
-      "imageUrl": "https://images.unsplash.com/photo-1522868858540-6c5c76941b65?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxtYXJpZ29sZCUyMGZsb3dlcnxlbnwwfHx8fDE3Njc1NDUzNjV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1530013526807-2ec93afddab9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxtYXJpZ29sZCUyMGZsb3dlcnxlbnwwfHx8fDE3NjcyNzk1NjJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "marigold flower"
     },
     {
       "id": "radio-12",
       "description": "AIR Murshidabad logo placeholder",
-      "imageUrl": "https://images.unsplash.com/photo-1600869113700-8b1d493b89a8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxpbmRpYW4lMjB0YWplc3RyeXxlbnwwfHx8fDE3Njc1NDUzOTR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1758186150174-3b3f7954f298?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxpbmRpYW4lMjB0YXBlc3RyeXxlbnwwfHx8fDE3NjcyODExMjd8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "indian tapestry"
     },
     {
       "id": "radio-13",
-      "description": "Air Rainbow Kolkata logo placeholder",
-      "imageUrl": "https://images.unsplash.com/photo-1598647895243-c0cec15b5e49?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxpbmRpYW4lMjBwYWludGluZ3xlbnwwfHx8fDE3Njc1NDU0MjN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "description": "Air Rainbow 107 Kolkata logo placeholder",
+      "imageUrl": "https://images.unsplash.com/photo-1714249158172-a52b64db5377?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxpbmRpYW4lMjBwYWludGluZ3xlbnwwfHx8fDE3NjcyODExMjd8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "indian painting"
     },
     {
       "id": "radio-14",
-      "description": "Kolkata Geetanjali logo placeholder",
-      "imageUrl": "https://images.unsplash.com/photo-1596303248698-3f6c82de2a14?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHx0YWdvcmUlMjBwb2V0cnl8ZW58MHx8fHwxNzY3NTQ1NDUzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "description": "Kolkata - Geetanjali logo placeholder",
+      "imageUrl": "https://images.unsplash.com/photo-1678984482607-1b4fdd416900?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHx0YWdvcmUlMjBwb2V0cnl8ZW58MHx8fHwxNzY3MjgxMTI3fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "tagore poetry"
     }
   ]
