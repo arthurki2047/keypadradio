@@ -7,4 +7,5 @@ export const stations: Station[] = [
   { id: 's12', name: 'AIR Murshidabad', streamUrl: 'http://air.pc.cdn.bitgravity.com/air/live/pbaudio169/playlist.m3u8', logoUrl: 'https://picsum.photos/seed/murshidabad/128/128' },
   { id: 's13', name: 'Air Rainbow 107 Kolkata', streamUrl: 'https://airhlspush.pc.cdn.bitgravity.com/httppush/hlspbaudio058/hlspbaudio05864kbps.m3u8', logoUrl: 'https://picsum.photos/seed/rainbow/128/128' },
   { id: 's14', name: 'Kolkata - Geetanjali', streamUrl: 'https://airhlspush.pc.cdn.bitgravity.com/httppush/hlspbaudio055/hlspbaudio05564kbps.m3u8', logoUrl: 'https://picsum.photos/seed/geetanjali/128/128' },
+  { id: 's15', name: 'All India Radio News 24X7', streamUrl: 'https://airhlspush.pc.cdn.bitgravity.com/httppush/hlspbaudio002/hlspbaudio002_Auto.m3u8', logoUrl: 'https://picsum.photos/seed/news/128/128' },
 ];
