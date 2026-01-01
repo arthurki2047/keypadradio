@@ -29,7 +29,7 @@ export function Screen(props: ScreenProps) {
   };
 
   return (
-    <div className="h-[280px] w-[240px] bg-background p-2 overflow-hidden relative">
+    <div className="flex-1 w-full bg-background p-2 overflow-hidden relative">
       <AnimatePresence mode="wait">
         <motion.div
           key={props.view}
