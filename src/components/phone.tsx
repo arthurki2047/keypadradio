@@ -4,7 +4,6 @@
 import { Screen } from './screen';
 import { useKeypad } from '@/hooks/use-keypad';
 import { Clock } from './clock';
-import { Keypad } from './keypad';
 import { Power } from 'lucide-react';
 
 type PhoneProps = ReturnType<typeof useKeypad>;
@@ -28,7 +27,6 @@ export function Phone(props: PhoneProps) {
                         </div>
                     )}
                 </div>
-                <Keypad onKeyPress={props.handleKeyPress} />
             </div>
         </div>
     );
