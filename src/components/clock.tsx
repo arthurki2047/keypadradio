@@ -3,9 +3,12 @@
 import { useState, useEffect } from 'react';
 
 export function Clock() {
-  const [time, setTime] = useState(new Date());
+  const [time, setTime] = useState<Date | null>(null);
 
   useEffect(() => {
+    // Set the initial time on the client to avoid hydration mismatch
+    setTime(new Date());
+
     const timerId = setInterval(() => {
       setTime(new Date());
     }, 1000);
@@ -26,6 +29,13 @@ export function Clock() {
       month: '2-digit',
     });
   };
+
+  // Render a placeholder or nothing until the time is available on the client
+  if (!time) {
+    return (
+        <div className="text-right text-xs font-mono text-neutral-400 h-8 w-12" />
+    );
+  }
 
   return (
     <div className="text-right text-xs font-mono text-neutral-400">
