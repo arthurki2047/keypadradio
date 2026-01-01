@@ -14,4 +14,5 @@ export const stations: Station[] = [
   { id: 's6', name: 'Colours FM', streamUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3', logoUrl: getImageUrl('radio-6') },
   { id: 's7', name: 'Capital FM', streamUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3', logoUrl: getImageUrl('radio-7') },
   { id: 's8', name: 'Bangla Radio', streamUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3', logoUrl: getImageUrl('radio-8') },
+  { id: 's9', name: 'AIR Kolkata', streamUrl: 'https://airhlspush.pc.cdn.bitgravity.com/httppush/hlspbaudio055/hlspbaudio05564kbps.m3u8', logoUrl: getImageUrl('radio-9') },
 ];
