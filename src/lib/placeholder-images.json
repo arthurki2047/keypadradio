@@ -59,6 +59,12 @@
       "description": "Live News 24x7 logo placeholder",
       "imageUrl": "https://images.unsplash.com/photo-1555595914-72449792556b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxOZXdzJTIwTG9nb3xlbnwwfHx8fDE3Njc0MDUxODV8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "news logo"
+    },
+    {
+      "id": "radio-11",
+      "description": "AIR FM Gold (Kolkata) logo placeholder",
+      "imageUrl": "https://images.unsplash.com/photo-1511671782225-6123c91f5e9a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxyYWRpbyUyMGxvZ298ZW58MHx8fHwxNzY3NDY1MDYyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "radio logo"
     }
   ]
 }
