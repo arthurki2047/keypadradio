@@ -1,9 +1,11 @@
+
 "use client";
 
 import { Screen } from './screen';
 import { useKeypad } from '@/hooks/use-keypad';
 import { Clock } from './clock';
 import { TouchControls } from './touch-controls';
+import { Power } from 'lucide-react';
 
 type PhoneProps = ReturnType<typeof useKeypad>;
 
@@ -16,7 +18,15 @@ export function Phone(props: PhoneProps) {
                     <Clock />
                 </div>
                 <div className="flex-1 w-full bg-background overflow-hidden relative">
-                    <Screen {...props} />
+                    {props.isScreenOn ? (
+                        <Screen {...props} />
+                    ) : (
+                        <div className="w-full h-full bg-black flex flex-col items-center justify-center text-neutral-500">
+                            <Power className="w-16 h-16 mb-4" />
+                            <p className="text-sm">Screen is off</p>
+                            <p className="text-xs mt-2">Press any key to wake</p>
+                        </div>
+                    )}
                 </div>
                 <TouchControls onKeyPress={props.handleKeyPress} />
             </div>

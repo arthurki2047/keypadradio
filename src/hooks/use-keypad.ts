@@ -17,6 +17,8 @@ const homeMenuItems = [
   { label: "Presets", view: "PRESETS" as const },
 ];
 
+const INACTIVITY_TIMEOUT = 30000; // 30 seconds
+
 export const useKeypad = () => {
     const [view, setView] = useState<View>('HOME');
     const [allStations] = useState<Station[]>(stations);
@@ -31,6 +33,38 @@ export const useKeypad = () => {
 
     const [lastKeyPressed, setLastKeyPressed] = useState<{ key: string; charIndex: number }>({ key: '', charIndex: 0 });
     const t9TimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+    const [isScreenOn, setIsScreenOn] = useState(true);
+    const inactivityTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+    const resetInactivityTimer = useCallback(() => {
+        if (inactivityTimerRef.current) {
+            clearTimeout(inactivityTimerRef.current);
+        }
+        inactivityTimerRef.current = setTimeout(() => {
+            setIsScreenOn(false);
+        }, INACTIVITY_TIMEOUT);
+    }, []);
+
+    const wakeScreen = useCallback(() => {
+        if (!isScreenOn) {
+            setIsScreenOn(true);
+            resetInactivityTimer();
+            return true; // Screen was woken up
+        }
+        resetInactivityTimer();
+        return false; // Screen was already on
+    }, [isScreenOn, resetInactivityTimer]);
+
+
+    useEffect(() => {
+        resetInactivityTimer();
+        return () => {
+            if (inactivityTimerRef.current) {
+                clearTimeout(inactivityTimerRef.current);
+            }
+        };
+    }, [resetInactivityTimer]);
 
     const updateMediaSession = useCallback((station: Station | null, playing: boolean) => {
         if ('mediaSession' in navigator) {
@@ -196,6 +230,10 @@ export const useKeypad = () => {
     }
 
     const handleKeyPress = useCallback((key: string) => {
+        if (wakeScreen()) {
+            return;
+        }
+
         switch (view) {
             case 'HOME':
                 if (key === 'ArrowUp') handleListNavigation('up', homeMenuItems);
@@ -276,7 +314,7 @@ export const useKeypad = () => {
                 else if(key === '7') addToPresets();
                 break;
         }
-    }, [view, activeIndex, filteredStations, playStation, togglePlayPause, addToPresets, allStations, presets, searchTerm, lastKeyPressed, currentStation, updateMediaSession, playNext, playPrevious]);
+    }, [view, activeIndex, filteredStations, playStation, togglePlayPause, addToPresets, allStations, presets, searchTerm, lastKeyPressed, currentStation, updateMediaSession, playNext, playPrevious, wakeScreen]);
 
     useEffect(() => {
         const keydownHandler = (e: KeyboardEvent) => {
@@ -317,6 +355,7 @@ export const useKeypad = () => {
         presets,
         searchTerm,
         audioRef,
+        isScreenOn,
         handleKeyPress,
         handleCanPlay,
         allStations,
