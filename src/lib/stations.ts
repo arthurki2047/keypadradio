@@ -1,10 +1,10 @@
 import type { Station } from '@/types';
 
 export const stations: Station[] = [
-  { id: 's9', name: 'AIR Kolkata', streamUrl: 'http://air.pc.cdn.bitgravity.com/air/live/pbaudio169/playlist.m3u8', logoUrl: 'https://images.unsplash.com/photo-1534322976322-3861219b223a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxIb3dyYWglMjBCcmlkZ2V8ZW58MHx8fHwxNzY3ODUyMzMzfDA&ixlib=rb-4.1.0&q=80&w=1080' },
-  { id: 's10', name: 'Vividh Bharati', streamUrl: 'https://air.pc.cdn.bitgravity.com/air/live/pbaudio001/playlist.m3u8', logoUrl: 'https://images.unsplash.com/photo-1598387993441-a364f5514034?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxzb25nfGVufDB8fHx8MTc2NzE5Mjg2N3ww&ixlib=rb-4.1.0&q=80&w=1080' },
-  { id: 's11', name: 'AIR FM Gold (Kolkata)', streamUrl: 'https://airhlspush.pc.cdn.bitgravity.com/httppush/hlspbaudio057/hlspbaudio05764kbps.m3u8', logoUrl: 'https://images.unsplash.com/photo-1528625242368-9b8f8a1f6805?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxnb2xkfGVufDB8fHx8MTc2NzI3OTU2Mnww&ixlib=rb-4.1.0&q=80&w=1080' },
-  { id: 's12', name: 'AIR Murshidabad', streamUrl: 'http://air.pc.cdn.bitgravity.com/air/live/pbaudio169/playlist.m3u8', logoUrl: 'https://images.unsplash.com/photo-1588811528682-140a334e2b0a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxNdXJzaGlkYWJhZHxlbnwwfHx8fDE3NjcyNzk1NjJ8MA&ixlib=rb-4.1.0&q=80&w=1080' },
-  { id: 's13', name: 'Air Rainbow 107 Kolkata', streamUrl: 'https://airhlspush.pc.cdn.bitgravity.com/httppush/hlspbaudio058/hlspbaudio05864kbps.m3u8', logoUrl: 'https://images.unsplash.com/photo-1598348341632-4113337292a8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxyYWluYm93fGVufDB8fHx8MTc2NzI3OTU2Mnww&ixlib=rb-4.1.0&q=80&w=1080' },
-  { id: 's14', name: 'Kolkata - Geetanjali', streamUrl: 'https://airhlspush.pc.cdn.bitgravity.com/httppush/hlspbaudio055/hlspbaudio05564kbps.m3u8', logoUrl: 'https://images.unsplash.com/photo-1520037389473-850c26a575b9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxwb2V0cnl8ZW58MHx8fHwxNzY3MjgxMTI3fDA&ixlib=rb-4.1.0&q=80&w=1080' },
+  { id: 's9', name: 'AIR Kolkata', streamUrl: 'http://air.pc.cdn.bitgravity.com/air/live/pbaudio169/playlist.m3u8', logoUrl: 'https://picsum.photos/seed/kolkata/128/128' },
+  { id: 's10', name: 'Vividh Bharati', streamUrl: 'https://air.pc.cdn.bitgravity.com/air/live/pbaudio001/playlist.m3u8', logoUrl: 'https://picsum.photos/seed/bharati/128/128' },
+  { id: 's11', name: 'AIR FM Gold (Kolkata)', streamUrl: 'https://airhlspush.pc.cdn.bitgravity.com/httppush/hlspbaudio057/hlspbaudio05764kbps.m3u8', logoUrl: 'https://picsum.photos/seed/gold/128/128' },
+  { id: 's12', name: 'AIR Murshidabad', streamUrl: 'http://air.pc.cdn.bitgravity.com/air/live/pbaudio169/playlist.m3u8', logoUrl: 'https://picsum.photos/seed/murshidabad/128/128' },
+  { id: 's13', name: 'Air Rainbow 107 Kolkata', streamUrl: 'https://airhlspush.pc.cdn.bitgravity.com/httppush/hlspbaudio058/hlspbaudio05864kbps.m3u8', logoUrl: 'https://picsum.photos/seed/rainbow/128/128' },
+  { id: 's14', name: 'Kolkata - Geetanjali', streamUrl: 'https://airhlspush.pc.cdn.bitgravity.com/httppush/hlspbaudio055/hlspbaudio05564kbps.m3u8', logoUrl: 'https://picsum.photos/seed/geetanjali/128/128' },
 ];
