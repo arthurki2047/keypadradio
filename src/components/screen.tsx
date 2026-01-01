@@ -8,7 +8,6 @@ import { SearchView } from './views/search-view';
 import { PresetsView } from './views/presets-view';
 import { useKeypad } from '@/hooks/use-keypad';
 import { AnimatePresence, motion } from 'framer-motion';
-import { TopNavigation } from './top-navigation';
 
 type ScreenProps = ReturnType<typeof useKeypad>;
 
@@ -31,22 +30,19 @@ export function Screen(props: ScreenProps) {
   };
 
   return (
-    <div className="flex-1 w-full bg-background overflow-hidden relative flex flex-col">
-      <TopNavigation onKeyPress={props.handleKeyPress} />
-      <div className="flex-1 w-full overflow-hidden relative">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={props.view}
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -50 }}
-            transition={{ duration: 0.2 }}
-            className="w-full h-full"
-          >
-            {renderView()}
-          </motion.div>
-        </AnimatePresence>
-      </div>
+    <div className="flex-1 w-full bg-background overflow-hidden relative">
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={props.view}
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -50 }}
+          transition={{ duration: 0.2 }}
+          className="w-full h-full"
+        >
+          {renderView()}
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }
