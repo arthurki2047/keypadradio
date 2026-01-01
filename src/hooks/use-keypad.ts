@@ -115,7 +115,7 @@ export const useKeypad = () => {
                         playStation(filteredStations[activeIndex]);
                     }
                 }
-                else if (key === '*') { setView('HOME'); }
+                else if (key === '*' || key === '#') { setView('HOME'); }
                 break;
             case 'SEARCH':
                  if (key === 'ArrowUp') handleListNavigation('up', filteredStations);
@@ -153,7 +153,7 @@ export const useKeypad = () => {
 
             case 'PLAYER':
                 if (key === '5') togglePlayPause();
-                else if (key === '*') {
+                else if (key === '*' || key === '#') {
                     audioRef.current?.pause();
                     setIsPlaying(false);
                     const previousView = presets.includes(currentStation?.id || '') ? 'PRESETS' : 'STATIONS';
