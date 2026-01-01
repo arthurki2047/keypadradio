@@ -134,45 +134,6 @@ export const useKeypad = () => {
     }, [currentStation, isPlaying, updateMediaSession]);
     
 
-    useEffect(() => {
-        try {
-            const storedPresets = localStorage.getItem('amarRadioPresets');
-            if (storedPresets) {
-                setPresets(JSON.parse(storedPresets));
-            }
-        } catch (error) {
-            console.error("Could not load presets from localStorage", error);
-        }
-
-        if (typeof window !== 'undefined' && 'mediaSession' in navigator && navigator.mediaSession) {
-            navigator.mediaSession.setActionHandler('play', () => togglePlayPause());
-            navigator.mediaSession.setActionHandler('pause', () => togglePlayPause());
-        }
-
-        return () => {
-             if (typeof window !== 'undefined' && 'mediaSession' in navigator && navigator.mediaSession) {
-                navigator.mediaSession.setActionHandler('play', null);
-                navigator.mediaSession.setActionHandler('pause', null);
-                navigator.mediaSession.setActionHandler('previoustrack', null);
-                navigator.mediaSession.setActionHandler('nexttrack', null);
-            }
-        }
-    }, []); // Empty dependency array
-
-    const handleCanPlay = () => {
-        if (audioRef.current && audioRef.current.paused && view === 'PLAYER' && currentStation) {
-             const playPromise = audioRef.current.play();
-             if (playPromise !== undefined) {
-                 playPromise.then(() => {
-                    setIsPlaying(true);
-                 }).catch(e => {
-                    console.error("Playback failed on canplay", e);
-                    setIsPlaying(false);
-                 });
-             }
-        }
-    };
-    
     const togglePlayPause = useCallback(() => {
         if (!currentStation) return;
         if (isPlaying) {
@@ -197,6 +158,46 @@ export const useKeypad = () => {
             }
         }
     }, [isPlaying, currentStation]);
+
+    useEffect(() => {
+        try {
+            const storedPresets = localStorage.getItem('amarRadioPresets');
+            if (storedPresets) {
+                setPresets(JSON.parse(storedPresets));
+            }
+        } catch (error) {
+            console.error("Could not load presets from localStorage", error);
+        }
+
+        if (typeof window !== 'undefined' && 'mediaSession' in navigator && navigator.mediaSession) {
+            navigator.mediaSession.setActionHandler('play', () => togglePlayPause());
+            navigator.mediaSession.setActionHandler('pause', () => togglePlayPause());
+        }
+
+        return () => {
+             if (typeof window !== 'undefined' && 'mediaSession' in navigator && navigator.mediaSession) {
+                navigator.mediaSession.setActionHandler('play', null);
+                navigator.mediaSession.setActionHandler('pause', null);
+                navigator.mediaSession.setActionHandler('previoustrack', null);
+                navigator.mediaSession.setActionHandler('nexttrack', null);
+            }
+        }
+    }, [togglePlayPause]); 
+
+    const handleCanPlay = () => {
+        if (audioRef.current && audioRef.current.paused && view === 'PLAYER' && currentStation) {
+             const playPromise = audioRef.current.play();
+             if (playPromise !== undefined) {
+                 playPromise.then(() => {
+                    setIsPlaying(true);
+                 }).catch(e => {
+                    console.error("Playback failed on canplay", e);
+                    setIsPlaying(false);
+                 });
+             }
+        }
+    };
+    
     
     const handleListNavigation = (direction: 'up' | 'down', list: any[]) => {
       if (list.length === 0) return;
@@ -336,7 +337,7 @@ export const useKeypad = () => {
                         playStation(filteredStations[activeIndex]);
                     }
                 }
-                else if (key === 'ArrowLeft' || key === '*' || key === '#') { setView('HOME'); setActiveIndex(0); }
+                else if (key === 'ArrowLeft' || key === '*') { setView('HOME'); setActiveIndex(0); }
                 else if (view === 'SEARCH') {
                     if (key >= '2' && key <= '9') {
                         const chars = T9_MAP[key];
