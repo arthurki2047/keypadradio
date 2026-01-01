@@ -43,13 +43,22 @@ export const useKeypad = () => {
     }, []);
 
     const playStation = useCallback((station: Station) => {
-        setCurrentStation(station);
-        setView('PLAYER');
         if (audioRef.current) {
-            audioRef.current.src = station.streamUrl;
+            if (currentStation?.id !== station.id) {
+                audioRef.current.src = station.streamUrl;
+                audioRef.current.load();
+            }
+            setCurrentStation(station);
+            setView('PLAYER');
+            // Playback will be triggered by handleCanPlay
+        }
+    }, [currentStation]);
+
+    const handleCanPlay = () => {
+        if (audioRef.current && view === 'PLAYER') {
             audioRef.current.play().then(() => setIsPlaying(true)).catch(e => console.error("Playback failed", e));
         }
-    }, []);
+    };
 
     const togglePlayPause = useCallback(() => {
         if (!currentStation) return;
@@ -57,7 +66,14 @@ export const useKeypad = () => {
             audioRef.current?.pause();
             setIsPlaying(false);
         } else {
-            audioRef.current?.play().then(() => setIsPlaying(true)).catch(e => console.error("Playback failed", e));
+             if (audioRef.current) {
+                // If source is not set, set it now
+                if(audioRef.current.src !== currentStation.streamUrl) {
+                    audioRef.current.src = currentStation.streamUrl;
+                    audioRef.current.load();
+                }
+                audioRef.current.play().then(() => setIsPlaying(true)).catch(e => console.error("Playback failed", e));
+            }
         }
     }, [isPlaying, currentStation]);
     
@@ -104,8 +120,13 @@ export const useKeypad = () => {
             case 'HOME':
                 if (key === 'ArrowUp') handleListNavigation('up', homeMenuItems);
                 else if (key === 'ArrowDown') handleListNavigation('down', homeMenuItems);
-                else if (key === 'Enter') {
-                    const selectedItem = homeMenuItems[activeIndex];
+                else if (key === 'Enter' || (key >= '1' && key <= '3')) {
+                    let targetIndex = activeIndex;
+                    if (key === '1') targetIndex = 0;
+                    if (key === '2') targetIndex = 1;
+                    if (key === '3') targetIndex = 2;
+
+                    const selectedItem = homeMenuItems[targetIndex];
                     if (selectedItem) {
                         if (selectedItem.view === 'SEARCH') {
                             setSearchTerm(''); 
@@ -120,18 +141,11 @@ export const useKeypad = () => {
                         setActiveIndex(0);
                     }
                 }
-                else if (key === '1') { setView('STATIONS'); setActiveIndex(0); setFilteredStations(allStations); }
-                else if (key === '2') { setView('SEARCH'); setActiveIndex(0); setSearchTerm(''); setFilteredStations(allStations); }
-                else if (key === '3') { 
-                  const presetStations = allStations.filter(s => presets.includes(s.id));
-                  setFilteredStations(presetStations);
-                  setView('PRESETS'); 
-                  setActiveIndex(0);
-                }
                 break;
             
             case 'STATIONS':
             case 'PRESETS':
+            case 'SEARCH':
                 if (key === 'ArrowUp') handleListNavigation('up', filteredStations);
                 else if (key === 'ArrowDown') handleListNavigation('down', filteredStations);
                 else if (key === 'Enter') {
@@ -139,18 +153,8 @@ export const useKeypad = () => {
                         playStation(filteredStations[activeIndex]);
                     }
                 }
-                else if (key === '*' || key === '#') { setView('HOME'); setActiveIndex(0); }
-                break;
-            case 'SEARCH':
-                 if (key === 'ArrowUp') handleListNavigation('up', filteredStations);
-                else if (key === 'ArrowDown') handleListNavigation('down', filteredStations);
-                else if (key === 'Enter') {
-                    if (filteredStations[activeIndex]) {
-                        playStation(filteredStations[activeIndex]);
-                    }
-                }
                 else if (key === '*') { setView('HOME'); setActiveIndex(0); }
-                else {
+                else if (view === 'SEARCH') {
                     if (key >= '2' && key <= '9') {
                         const chars = T9_MAP[key];
                         if (t9TimeoutRef.current) clearTimeout(t9TimeoutRef.current);
@@ -172,6 +176,9 @@ export const useKeypad = () => {
                         setLastKeyPressed({ key: '', charIndex: 0 });
                         if (t9TimeoutRef.current) clearTimeout(t9TimeoutRef.current);
                     }
+                } else if (key === '#') {
+                    setView('HOME'); 
+                    setActiveIndex(0);
                 }
                 break;
 
@@ -180,7 +187,7 @@ export const useKeypad = () => {
                 else if (key === '*' || key === '#') {
                     audioRef.current?.pause();
                     setIsPlaying(false);
-                    const previousView = presets.includes(currentStation?.id || '') ? 'PRESETS' : 'STATIONS';
+                    const previousView = currentStation && presets.includes(currentStation.id) ? 'PRESETS' : 'STATIONS';
                     setView(previousView);
                 }
                 else if (key === '1') {
@@ -233,6 +240,7 @@ export const useKeypad = () => {
         searchTerm,
         audioRef,
         handleKeyPress,
+        handleCanPlay,
         allStations,
         setActiveIndex,
         setFilteredStations,

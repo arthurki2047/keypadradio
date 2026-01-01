@@ -22,7 +22,7 @@ export default function Home() {
       </motion.div>
       <AudioPlayer
         audioRef={keypadState.audioRef}
-        streamUrl={keypadState.currentStation?.streamUrl ?? null}
+        onCanPlay={keypadState.handleCanPlay}
       />
       <Toaster />
     </main>

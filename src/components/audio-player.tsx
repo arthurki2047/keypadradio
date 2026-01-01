@@ -4,14 +4,11 @@ import type { ForwardedRef } from 'react';
 
 interface AudioPlayerProps {
     audioRef: ForwardedRef<HTMLAudioElement>;
-    streamUrl: string | null;
+    onCanPlay: () => void;
 }
 
-function AudioPlayer({ audioRef, streamUrl }: AudioPlayerProps) {
-    if (!streamUrl) {
-        return null;
-    }
-    return <audio ref={audioRef} src={streamUrl} className="hidden" />;
+function AudioPlayer({ audioRef, onCanPlay }: AudioPlayerProps) {
+    return <audio ref={audioRef} onCanPlay={onCanPlay} className="hidden" />;
 }
 
 export default AudioPlayer;
