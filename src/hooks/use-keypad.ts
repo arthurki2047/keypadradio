@@ -157,10 +157,15 @@ export const useKeypad = () => {
                     const previousView = presets.includes(currentStation?.id || '') ? 'PRESETS' : 'STATIONS';
                     setView(previousView);
                 }
+                else if (key === '1') {
+                  audioRef.current?.pause();
+                  setIsPlaying(false);
+                  setView('HOME');
+                }
                 else if(key === '7') addToPresets();
                 break;
         }
-    }, [view, activeIndex, filteredStations, playStation, togglePlayPause, addToPresets, allStations, presets, searchTerm, lastKeyPressed]);
+    }, [view, activeIndex, filteredStations, playStation, togglePlayPause, addToPresets, allStations, presets, searchTerm, lastKeyPressed, currentStation]);
 
     useEffect(() => {
         const keydownHandler = (e: KeyboardEvent) => {

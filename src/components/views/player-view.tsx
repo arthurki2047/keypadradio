@@ -1,7 +1,7 @@
 "use client";
 import type { useKeypad } from "@/hooks/use-keypad";
 import Image from "next/image";
-import { Music, Star } from 'lucide-react';
+import { Home, List, Music, Star } from 'lucide-react';
 
 type PlayerViewProps = ReturnType<typeof useKeypad>;
 
@@ -36,7 +36,10 @@ export function PlayerView({ currentStation, isPlaying }: PlayerViewProps) {
             <span className="font-bold p-1 bg-gray-200 dark:bg-gray-700 rounded">7</span> Add to Presets <Star className="inline w-3 h-3 text-amber-400"/>
         </p>
         <p>
-            <span className="font-bold p-1 bg-gray-200 dark:bg-gray-700 rounded">*</span> Back to List
+            <span className="font-bold p-1 bg-gray-200 dark:bg-gray-700 rounded">*</span> Back to List <List className="inline w-3 h-3"/>
+        </p>
+        <p>
+            <span className="font-bold p-1 bg-gray-200 dark:bg-gray-700 rounded">1</span> Main Menu <Home className="inline w-3 h-3"/>
         </p>
       </div>
     </div>
