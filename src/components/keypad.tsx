@@ -30,20 +30,22 @@ export function Keypad({ onKeyPress }: KeypadProps) {
 
   return (
     <div className="bg-neutral-200 dark:bg-neutral-800 p-4 rounded-b-[28px]">
-      <div className="relative flex justify-center items-center mb-4">
-        <KeypadButton className="absolute right-0" onClick={() => onKeyPress('ArrowRight')}><ArrowRight /></KeypadButton>
-        <KeypadButton className="absolute left-0" onClick={() => onKeyPress('ArrowLeft')}><ArrowLeft /></KeypadButton>
-        <KeypadButton className="absolute top-[-20px]" onClick={() => onKeyPress('ArrowUp')}><ArrowUp /></KeypadButton>
-        <KeypadButton className="absolute bottom-[-20px]" onClick={() => onKeyPress('ArrowDown')}><ArrowDown /></KeypadButton>
-        <Button
-          variant="default"
-          className="h-16 w-16 rounded-full bg-primary text-primary-foreground shadow-lg text-lg font-bold"
-          onClick={() => onKeyPress('Enter')}
-        >
-          OK
-        </Button>
+      <div className="relative flex justify-center items-center mb-2">
+        <div className="absolute right-0"><KeypadButton onClick={() => onKeyPress('ArrowRight')}><ArrowRight /></KeypadButton></div>
+        <div className="absolute left-0"><KeypadButton onClick={() => onKeyPress('ArrowLeft')}><ArrowLeft /></KeypadButton></div>
+        <div className="flex flex-col items-center">
+            <KeypadButton onClick={() => onKeyPress('ArrowUp')}><ArrowUp /></KeypadButton>
+            <Button
+              variant="default"
+              className="h-16 w-16 rounded-full bg-primary text-primary-foreground shadow-lg text-lg font-bold my-1"
+              onClick={() => onKeyPress('Enter')}
+            >
+              OK
+            </Button>
+            <KeypadButton onClick={() => onKeyPress('ArrowDown')}><ArrowDown /></KeypadButton>
+        </div>
       </div>
-      <div className="grid grid-cols-3 gap-2 mt-12 place-items-center">
+      <div className="grid grid-cols-3 gap-2 mt-4 place-items-center">
         {numKeys.map((key) => {
             let icon;
             if (key === '1') icon = <Grip className="w-4 h-4" />;

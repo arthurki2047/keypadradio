@@ -145,6 +145,8 @@ export const useKeypad = () => {
                         t9TimeoutRef.current = setTimeout(() => setLastKeyPressed({ key: '', charIndex: 0 }), 1200);
                     } else if (key === '#') {
                         handleSearch(searchTerm.slice(0, -1));
+                        setLastKeyPressed({ key: '', charIndex: 0 });
+                        if (t9TimeoutRef.current) clearTimeout(t9TimeoutRef.current);
                     }
                 }
                 break;
