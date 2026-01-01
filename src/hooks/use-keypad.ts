@@ -31,6 +31,25 @@ export const useKeypad = () => {
     const [lastKeyPressed, setLastKeyPressed] = useState<{ key: string; charIndex: number }>({ key: '', charIndex: 0 });
     const t9TimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+    const updateMediaSession = useCallback((station: Station | null, playing: boolean) => {
+        if ('mediaSession' in navigator) {
+            if (!station) {
+                navigator.mediaSession.metadata = null;
+                navigator.mediaSession.playbackState = 'none';
+                return;
+            }
+
+            navigator.mediaSession.metadata = new MediaMetadata({
+                title: station.name,
+                artist: 'Amar Radio',
+                artwork: [
+                    { src: station.logoUrl, sizes: '128x128', type: 'image/png' },
+                ],
+            });
+            navigator.mediaSession.playbackState = playing ? 'playing' : 'paused';
+        }
+    }, []);
+
     useEffect(() => {
         try {
             const storedPresets = localStorage.getItem('amarRadioPresets');
@@ -40,42 +59,80 @@ export const useKeypad = () => {
         } catch (error) {
             console.error("Could not load presets from localStorage", error);
         }
+
+        if ('mediaSession' in navigator) {
+            navigator.mediaSession.setActionHandler('play', () => togglePlayPause());
+            navigator.mediaSession.setActionHandler('pause', () => togglePlayPause());
+        }
+
+        return () => {
+             if ('mediaSession' in navigator) {
+                navigator.mediaSession.setActionHandler('play', null);
+                navigator.mediaSession.setActionHandler('pause', null);
+            }
+        }
     }, []);
 
     const playStation = useCallback((station: Station) => {
         if (audioRef.current) {
-            if (currentStation?.id !== station.id) {
+            if (currentStation?.id !== station.id || !isPlaying) {
                 audioRef.current.src = station.streamUrl;
                 audioRef.current.load();
+                const playPromise = audioRef.current.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        setIsPlaying(true);
+                        updateMediaSession(station, true);
+                    }).catch(e => {
+                        console.error("Playback failed", e);
+                        setIsPlaying(false);
+                        updateMediaSession(station, false);
+                    });
+                }
             }
             setCurrentStation(station);
             setView('PLAYER');
-            // Playback will be triggered by handleCanPlay
         }
-    }, [currentStation]);
+    }, [currentStation, isPlaying, updateMediaSession]);
 
     const handleCanPlay = () => {
-        if (audioRef.current && view === 'PLAYER') {
-            audioRef.current.play().then(() => setIsPlaying(true)).catch(e => console.error("Playback failed", e));
+        if (audioRef.current && audioRef.current.paused && view === 'PLAYER' && currentStation) {
+             const playPromise = audioRef.current.play();
+             if (playPromise !== undefined) {
+                 playPromise.then(() => {
+                    setIsPlaying(true);
+                    updateMediaSession(currentStation, true);
+                 }).catch(e => {
+                    console.error("Playback failed on canplay", e);
+                    setIsPlaying(false);
+                    updateMediaSession(currentStation, false);
+                 });
+             }
         }
     };
-
+    
     const togglePlayPause = useCallback(() => {
         if (!currentStation) return;
         if (isPlaying) {
             audioRef.current?.pause();
             setIsPlaying(false);
+            updateMediaSession(currentStation, false);
         } else {
              if (audioRef.current) {
-                // If source is not set, set it now
-                if(audioRef.current.src !== currentStation.streamUrl) {
-                    audioRef.current.src = currentStation.streamUrl;
-                    audioRef.current.load();
+                const playPromise = audioRef.current.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        setIsPlaying(true);
+                        updateMediaSession(currentStation, true);
+                    }).catch(e => {
+                        console.error("Playback failed on toggle", e);
+                        setIsPlaying(false);
+                        updateMediaSession(currentStation, false);
+                    });
                 }
-                audioRef.current.play().then(() => setIsPlaying(true)).catch(e => console.error("Playback failed", e));
             }
         }
-    }, [isPlaying, currentStation]);
+    }, [isPlaying, currentStation, updateMediaSession]);
     
     const handleListNavigation = (direction: 'up' | 'down', list: any[]) => {
       if (list.length === 0) return;
@@ -118,13 +175,13 @@ export const useKeypad = () => {
     const handleKeyPress = useCallback((key: string) => {
         switch (view) {
             case 'HOME':
-                if (key === 'ArrowUp') handleListNavigation('up', homeMenuItems);
+                 if (key === 'ArrowUp') handleListNavigation('up', homeMenuItems);
                 else if (key === 'ArrowDown') handleListNavigation('down', homeMenuItems);
                 else if (key === 'Enter' || (key >= '1' && key <= '3')) {
                     let targetIndex = activeIndex;
-                    if (key === '1') targetIndex = 0;
-                    if (key === '2') targetIndex = 1;
-                    if (key === '3') targetIndex = 2;
+                    if (key >= '1' && key <= '3') {
+                        targetIndex = parseInt(key) - 1;
+                    }
 
                     const selectedItem = homeMenuItems[targetIndex];
                     if (selectedItem) {
@@ -187,18 +244,20 @@ export const useKeypad = () => {
                 else if (key === '*' || key === '#') {
                     audioRef.current?.pause();
                     setIsPlaying(false);
+                    updateMediaSession(null, false);
                     const previousView = currentStation && presets.includes(currentStation.id) ? 'PRESETS' : 'STATIONS';
                     setView(previousView);
                 }
                 else if (key === '1') {
                   audioRef.current?.pause();
                   setIsPlaying(false);
+                  updateMediaSession(null, false);
                   setView('HOME');
                 }
                 else if(key === '7') addToPresets();
                 break;
         }
-    }, [view, activeIndex, filteredStations, playStation, togglePlayPause, addToPresets, allStations, presets, searchTerm, lastKeyPressed, currentStation]);
+    }, [view, activeIndex, filteredStations, playStation, togglePlayPause, addToPresets, allStations, presets, searchTerm, lastKeyPressed, currentStation, updateMediaSession]);
 
     useEffect(() => {
         const keydownHandler = (e: KeyboardEvent) => {
