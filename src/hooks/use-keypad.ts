@@ -70,25 +70,41 @@ export const useKeypad = () => {
         };
     }, [resetInactivityTimer]);
 
+    const playStation = useCallback((station: Station) => {
+        if (audioRef.current) {
+            audioRef.current.crossOrigin = "anonymous";
+            audioRef.current.src = station.streamUrl;
+            audioRef.current.load();
+            const playPromise = audioRef.current.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    setIsPlaying(true);
+                    updateMediaSession(station, true);
+                }).catch(e => {
+                    console.error("Playback failed", e);
+                    setIsPlaying(false);
+                    updateMediaSession(station, false);
+                    toast({ variant: "destructive", title: "Playback Error", description: "Could not play station. The stream may be offline or unavailable." });
+                });
+            }
+            setCurrentStation(station);
+            setView('PLAYER');
+        }
+    }, [toast]); // updateMediaSession removed from dependencies to break cycle
+
     const playNext = useCallback(() => {
         if (!currentStation || filteredStations.length === 0) return;
         const currentIndex = filteredStations.findIndex(s => s.id === currentStation.id);
         const nextIndex = (currentIndex + 1) % filteredStations.length;
-        // playStation is defined below
-        if (typeof playStation === 'function') {
-            playStation(filteredStations[nextIndex]);
-        }
-    }, [currentStation, filteredStations]);
+        playStation(filteredStations[nextIndex]);
+    }, [currentStation, filteredStations, playStation]);
 
     const playPrevious = useCallback(() => {
         if (!currentStation || filteredStations.length === 0) return;
         const currentIndex = filteredStations.findIndex(s => s.id === currentStation.id);
         const prevIndex = (currentIndex - 1 + filteredStations.length) % filteredStations.length;
-        // playStation is defined below
-        if (typeof playStation === 'function') {
-            playStation(filteredStations[prevIndex]);
-        }
-    }, [currentStation, filteredStations]);
+        playStation(filteredStations[prevIndex]);
+    }, [currentStation, filteredStations, playStation]);
 
     const updateMediaSession = useCallback((station: Station | null, playing: boolean) => {
         if (typeof window !== 'undefined' && 'mediaSession' in navigator && navigator.mediaSession) {
@@ -112,27 +128,11 @@ export const useKeypad = () => {
         }
     }, [playNext, playPrevious]);
 
-    const playStation = useCallback((station: Station) => {
-        if (audioRef.current) {
-            audioRef.current.crossOrigin = "anonymous";
-            audioRef.current.src = station.streamUrl;
-            audioRef.current.load();
-            const playPromise = audioRef.current.play();
-            if (playPromise !== undefined) {
-                playPromise.then(() => {
-                    setIsPlaying(true);
-                    updateMediaSession(station, true);
-                }).catch(e => {
-                    console.error("Playback failed", e);
-                    setIsPlaying(false);
-                    updateMediaSession(station, false);
-                    toast({ variant: "destructive", title: "Playback Error", description: "Could not play station. The stream may be offline or unavailable." });
-                });
-            }
-            setCurrentStation(station);
-            setView('PLAYER');
-        }
-    }, [updateMediaSession, toast]);
+    // Effect for updating media session when station or playing state changes
+    useEffect(() => {
+        updateMediaSession(currentStation, isPlaying);
+    }, [currentStation, isPlaying, updateMediaSession]);
+    
 
     useEffect(() => {
         try {
@@ -157,7 +157,7 @@ export const useKeypad = () => {
                 navigator.mediaSession.setActionHandler('nexttrack', null);
             }
         }
-    }, []);
+    }, []); // Empty dependency array
 
     const handleCanPlay = () => {
         if (audioRef.current && audioRef.current.paused && view === 'PLAYER' && currentStation) {
@@ -165,11 +165,9 @@ export const useKeypad = () => {
              if (playPromise !== undefined) {
                  playPromise.then(() => {
                     setIsPlaying(true);
-                    updateMediaSession(currentStation, true);
                  }).catch(e => {
                     console.error("Playback failed on canplay", e);
                     setIsPlaying(false);
-                    updateMediaSession(currentStation, false);
                  });
              }
         }
@@ -180,7 +178,6 @@ export const useKeypad = () => {
         if (isPlaying) {
             audioRef.current?.pause();
             setIsPlaying(false);
-            updateMediaSession(currentStation, false);
         } else {
              if (audioRef.current) {
                 if (audioRef.current.src !== currentStation.streamUrl) {
@@ -192,16 +189,14 @@ export const useKeypad = () => {
                 if (playPromise !== undefined) {
                     playPromise.then(() => {
                         setIsPlaying(true);
-                        updateMediaSession(currentStation, true);
                     }).catch(e => {
                         console.error("Playback failed on toggle", e);
                         setIsPlaying(false);
-                        updateMediaSession(currentStation, false);
                     });
                 }
             }
         }
-    }, [isPlaying, currentStation, updateMediaSession]);
+    }, [isPlaying, currentStation]);
     
     const handleListNavigation = (direction: 'up' | 'down', list: any[]) => {
       if (list.length === 0) return;
@@ -385,7 +380,7 @@ export const useKeypad = () => {
                 else if(key === '7') addToPresets();
                 break;
         }
-    }, [view, activeIndex, filteredStations, playStation, togglePlayPause, addToPresets, allStations, presets, searchTerm, lastKeyPressed, currentStation, updateMediaSession, playNext, playPrevious, wakeScreen, toggleRecording]);
+    }, [view, activeIndex, filteredStations, playStation, togglePlayPause, addToPresets, allStations, presets, searchTerm, lastKeyPressed, currentStation, playNext, playPrevious, wakeScreen, toggleRecording]);
 
     useEffect(() => {
         const keydownHandler = (e: KeyboardEvent) => {
@@ -416,15 +411,6 @@ export const useKeypad = () => {
         window.addEventListener('keydown', keydownHandler);
         return () => window.removeEventListener('keydown', keydownHandler);
     }, [handleKeyPress]);
-
-    // This is a temporary workaround for the ReferenceError
-    useEffect(() => {
-        if (typeof playStation !== 'function') {
-            // The functions are not yet defined, this effect will re-run
-            return;
-        }
-        // now safe to call functions
-    }, [playStation]);
 
 
     return {
