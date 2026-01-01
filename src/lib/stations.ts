@@ -1,3 +1,4 @@
+
 import type { Station } from '@/types';
 
 export const stations: Station[] = [
@@ -9,4 +10,5 @@ export const stations: Station[] = [
   { id: 's14', name: 'Kolkata - Geetanjali', streamUrl: 'https://airhlspush.pc.cdn.bitgravity.com/httppush/hlspbaudio055/hlspbaudio05564kbps.m3u8', logoUrl: 'https://picsum.photos/seed/geetanjali/128/128' },
   { id: 's15', name: 'All India Radio News 24X7', streamUrl: 'https://airhlspush.pc.cdn.bitgravity.com/httppush/hlspbaudio002/hlspbaudio002_Auto.m3u8', logoUrl: 'https://picsum.photos/seed/news/128/128' },
   { id: 's16', name: 'Akashvani Kolkata Sanchayita', streamUrl: 'https://airhlspush.pc.cdn.bitgravity.com/httppush/hlspbaudio056/hlspbaudio05664kbps.m3u8', logoUrl: 'https://picsum.photos/seed/sanchayita/128/128' },
+  { id: 's17', name: 'Akashvani Maitree', streamUrl: 'https://airhlspush.pc.cdn.bitgravity.com/httppush/hlspbaudio245/hlspbaudio24564kbps.m3u8', logoUrl: 'https://picsum.photos/seed/maitree/128/128' },
 ];
