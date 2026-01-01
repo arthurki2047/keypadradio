@@ -8,7 +8,10 @@ interface AudioPlayerProps {
 }
 
 function AudioPlayer({ audioRef, streamUrl }: AudioPlayerProps) {
-    return <audio ref={audioRef} src={streamUrl || ''} className="hidden" />;
+    if (!streamUrl) {
+        return null;
+    }
+    return <audio ref={audioRef} src={streamUrl} className="hidden" />;
 }
 
 export default AudioPlayer;
