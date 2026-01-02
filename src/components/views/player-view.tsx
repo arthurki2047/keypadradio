@@ -48,8 +48,8 @@ export function PlayerView({ currentStation, isPlaying, togglePlayPause, playNex
       </div>
 
        <div className="mt-4">
-        <Button onClick={toggleRecording} variant={isRecording ? 'destructive' : 'outline'} size="lg" className={`w-48 rounded-full transition-all ${isRecording ? 'animate-pulse' : ''}`}>
-          {isRecording ? <Square className="mr-2" /> : <Mic className="mr-2" />}
+        <Button onClick={toggleRecording} variant={isRecording ? 'destructive' : 'outline'} size="default" className={`rounded-full transition-all ${isRecording ? 'animate-pulse' : ''}`}>
+          {isRecording ? <Square className="mr-2 h-4 w-4" /> : <Mic className="mr-2 h-4 w-4" />}
           {isRecording ? 'Stop Recording' : 'Record to File'}
         </Button>
       </div>
