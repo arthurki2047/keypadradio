@@ -292,6 +292,20 @@ export const useKeypad = () => {
         }
     }, [isRecording, startRecording, stopRecording]);
 
+    const changeVolume = useCallback((direction: 'up' | 'down') => {
+        if (audioRef.current) {
+            const currentVolume = audioRef.current.volume;
+            let newVolume;
+            if (direction === 'up') {
+                newVolume = Math.min(currentVolume + 0.1, 1);
+            } else {
+                newVolume = Math.max(currentVolume - 0.1, 0);
+            }
+            audioRef.current.volume = newVolume;
+            toast({ title: "Volume", description: `${Math.round(newVolume * 100)}%` });
+        }
+    }, [toast]);
+
 
     const handleKeyPress = useCallback((key: string) => {
         if (wakeScreen()) {
@@ -367,6 +381,8 @@ export const useKeypad = () => {
                  if (key === '8') {
                     toggleRecording();
                 }
+                else if (key === '2') changeVolume('up');
+                else if (key === '3') changeVolume('down');
                 else if (key === '5' || key === 'Enter') togglePlayPause();
                 else if (key === 'ArrowUp') playPrevious();
                 else if (key === 'ArrowDown') playNext();
@@ -381,7 +397,7 @@ export const useKeypad = () => {
                 else if(key === '7') addToPresets();
                 break;
         }
-    }, [view, activeIndex, filteredStations, playStation, togglePlayPause, addToPresets, allStations, presets, searchTerm, lastKeyPressed, currentStation, playNext, playPrevious, wakeScreen, toggleRecording]);
+    }, [view, activeIndex, filteredStations, playStation, togglePlayPause, addToPresets, allStations, presets, searchTerm, lastKeyPressed, currentStation, playNext, playPrevious, wakeScreen, toggleRecording, changeVolume]);
 
     useEffect(() => {
         const keydownHandler = (e: KeyboardEvent) => {
