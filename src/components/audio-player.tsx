@@ -8,7 +8,7 @@ interface AudioPlayerProps {
 }
 
 function AudioPlayer({ audioRef, onCanPlay }: AudioPlayerProps) {
-    return <audio ref={audioRef} onCanPlay={onCanPlay} className="hidden" />;
+    return <audio ref={audioRef} onCanPlay={onCanPlay} className="hidden" crossOrigin="anonymous" />;
 }
 
 export default AudioPlayer;

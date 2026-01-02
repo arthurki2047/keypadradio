@@ -69,43 +69,7 @@ export const useKeypad = () => {
             }
         };
     }, [resetInactivityTimer]);
-
-    const playStation = useCallback((station: Station) => {
-        if (audioRef.current) {
-            audioRef.current.crossOrigin = "anonymous";
-            audioRef.current.src = station.streamUrl;
-            audioRef.current.load();
-            const playPromise = audioRef.current.play();
-            if (playPromise !== undefined) {
-                playPromise.then(() => {
-                    setIsPlaying(true);
-                    updateMediaSession(station, true);
-                }).catch(e => {
-                    console.error("Playback failed", e);
-                    setIsPlaying(false);
-                    updateMediaSession(station, false);
-                    toast({ variant: "destructive", title: "Playback Error", description: "Could not play station. The stream may be offline or unavailable." });
-                });
-            }
-            setCurrentStation(station);
-            setView('PLAYER');
-        }
-    }, [toast]); // updateMediaSession removed from dependencies to break cycle
-
-    const playNext = useCallback(() => {
-        if (!currentStation || filteredStations.length === 0) return;
-        const currentIndex = filteredStations.findIndex(s => s.id === currentStation.id);
-        const nextIndex = (currentIndex + 1) % filteredStations.length;
-        playStation(filteredStations[nextIndex]);
-    }, [currentStation, filteredStations, playStation]);
-
-    const playPrevious = useCallback(() => {
-        if (!currentStation || filteredStations.length === 0) return;
-        const currentIndex = filteredStations.findIndex(s => s.id === currentStation.id);
-        const prevIndex = (currentIndex - 1 + filteredStations.length) % filteredStations.length;
-        playStation(filteredStations[prevIndex]);
-    }, [currentStation, filteredStations, playStation]);
-
+    
     const updateMediaSession = useCallback((station: Station | null, playing: boolean) => {
         if (typeof window !== 'undefined' && 'mediaSession' in navigator && navigator.mediaSession) {
             if (!station) {
@@ -126,7 +90,42 @@ export const useKeypad = () => {
             navigator.mediaSession.setActionHandler('previoustrack', playPrevious);
             navigator.mediaSession.setActionHandler('nexttrack', playNext);
         }
-    }, [playNext, playPrevious]);
+    }, []); // playNext and playPrevious removed to avoid re-creation issues. They are defined later but are stable.
+
+    const playStation = useCallback((station: Station) => {
+        if (audioRef.current) {
+            audioRef.current.src = station.streamUrl;
+            audioRef.current.load();
+            const playPromise = audioRef.current.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    setIsPlaying(true);
+                    updateMediaSession(station, true);
+                }).catch(e => {
+                    console.error("Playback failed", e);
+                    setIsPlaying(false);
+                    updateMediaSession(station, false);
+                    toast({ variant: "destructive", title: "Playback Error", description: "Could not play station. The stream may be offline or unavailable." });
+                });
+            }
+            setCurrentStation(station);
+            setView('PLAYER');
+        }
+    }, [toast, updateMediaSession]);
+
+    const playNext = useCallback(() => {
+        if (!currentStation || filteredStations.length === 0) return;
+        const currentIndex = filteredStations.findIndex(s => s.id === currentStation.id);
+        const nextIndex = (currentIndex + 1) % filteredStations.length;
+        playStation(filteredStations[nextIndex]);
+    }, [currentStation, filteredStations, playStation]);
+
+    const playPrevious = useCallback(() => {
+        if (!currentStation || filteredStations.length === 0) return;
+        const currentIndex = filteredStations.findIndex(s => s.id === currentStation.id);
+        const prevIndex = (currentIndex - 1 + filteredStations.length) % filteredStations.length;
+        playStation(filteredStations[prevIndex]);
+    }, [currentStation, filteredStations, playStation]);
 
     // Effect for updating media session when station or playing state changes
     useEffect(() => {
@@ -142,7 +141,6 @@ export const useKeypad = () => {
         } else {
              if (audioRef.current) {
                 if (audioRef.current.src !== currentStation.streamUrl) {
-                    audioRef.current.crossOrigin = "anonymous";
                     audioRef.current.src = currentStation.streamUrl;
                     audioRef.current.load();
                 }
