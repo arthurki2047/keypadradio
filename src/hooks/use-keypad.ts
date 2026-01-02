@@ -104,25 +104,25 @@ export const useKeypad = () => {
     }, [currentStation, filteredStations, playStation]);
     
     const updateMediaSession = useCallback((station: Station | null, playing: boolean) => {
-        if (typeof window !== 'undefined' && 'mediaSession' in navigator && navigator.mediaSession) {
-            if (!station) {
-                navigator.mediaSession.metadata = null;
-                navigator.mediaSession.playbackState = 'none';
-                return;
-            }
+      if (typeof window !== 'undefined' && 'mediaSession' in navigator && navigator.mediaSession) {
+          if (!station) {
+              navigator.mediaSession.metadata = null;
+              navigator.mediaSession.playbackState = 'none';
+              return;
+          }
 
-            navigator.mediaSession.metadata = new MediaMetadata({
-                title: station.name,
-                artist: 'Amar Radio',
-                artwork: [
-                    { src: station.logoUrl, sizes: '128x128', type: 'image/png' },
-                ],
-            });
-            navigator.mediaSession.playbackState = playing ? 'playing' : 'paused';
-            
-            navigator.mediaSession.setActionHandler('previoustrack', playPrevious);
-            navigator.mediaSession.setActionHandler('nexttrack', playNext);
-        }
+          navigator.mediaSession.metadata = new MediaMetadata({
+              title: station.name,
+              artist: 'Amar Radio',
+              artwork: [
+                  { src: station.logoUrl, sizes: '128x128', type: 'image/png' },
+              ],
+          });
+          navigator.mediaSession.playbackState = playing ? 'playing' : 'paused';
+          
+          navigator.mediaSession.setActionHandler('previoustrack', playPrevious);
+          navigator.mediaSession.setActionHandler('nexttrack', playNext);
+      }
     }, [playNext, playPrevious]); 
 
     // Effect for updating media session when station or playing state changes
@@ -383,7 +383,7 @@ export const useKeypad = () => {
                 else if (key === 'ArrowUp') playPrevious();
                 else if (key === 'ArrowDown') playNext();
                 else if (key === 'ArrowRight') playNext();
-                else if (key === 'ArrowLeft') {
+                else if (key === '*') {
                     const previousList = currentStation && presets.includes(currentStation.id) ? 'PRESETS' : 'STATIONS';
                     setView(previousList);
                 }
