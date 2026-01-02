@@ -14,5 +14,3 @@ export const stations: Station[] = [
   { id: 's18', name: 'Akashvani Shantiniketan', streamUrl: 'https://air.pc.cdn.bitgravity.com/air/live/pbaudio247/playlist.m3u8', logoUrl: 'https://picsum.photos/seed/shantiniketan/128/128' },
   { id: 's19', name: 'Radio Mirchi', streamUrl: 'https://19013.live.streamtheworld.com/NJS_HIN_EST_SC', logoUrl: 'https://picsum.photos/seed/mirchi/128/128' },
 ];
-
-
