@@ -12,4 +12,6 @@ export const stations: Station[] = [
   { id: 's16', name: 'Akashvani Kolkata Sanchayita', streamUrl: 'https://airhlspush.pc.cdn.bitgravity.com/httppush/hlspbaudio056/hlspbaudio05664kbps.m3u8', logoUrl: 'https://picsum.photos/seed/sanchayita/128/128' },
   { id: 's17', name: 'Akashvani Maitree', streamUrl: 'https://airhlspush.pc.cdn.bitgravity.com/httppush/hlspbaudio245/hlspbaudio24564kbps.m3u8', logoUrl: 'https://picsum.photos/seed/maitree/128/128' },
   { id: 's18', name: 'Akashvani Shantiniketan', streamUrl: 'https://air.pc.cdn.bitgravity.com/air/live/pbaudio247/playlist.m3u8', logoUrl: 'https://picsum.photos/seed/shantiniketan/128/128' },
+  { id: 's19', name: 'Radio Mirchi', streamUrl: 'https://19013.live.streamtheworld.com/NJS_HIN_EST_SC', logoUrl: 'https://picsum.photos/seed/mirchi/128/128' },
 ];
+
