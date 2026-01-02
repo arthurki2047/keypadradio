@@ -6,7 +6,11 @@ import { useKeypad } from '@/hooks/use-keypad';
 import { Toaster } from '@/components/ui/toaster';
 import { motion } from 'framer-motion';
 
-export default function Home() {
+export default function Home({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
   const keypadState = useKeypad();
 
   return (
