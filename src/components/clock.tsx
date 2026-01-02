@@ -26,21 +26,21 @@ export function Clock() {
   const formatDate = (date: Date) => {
     return date.toLocaleDateString('en-GB', {
       day: '2-digit',
-      month: '2-digit',
+      month: 'short',
+      year: 'numeric'
     });
   };
 
   // Render a placeholder or nothing until the time is available on the client
   if (!time) {
     return (
-        <div className="text-right text-xs font-mono text-neutral-400 h-8 w-12" />
+        <div className="text-center text-xs font-mono text-neutral-400 h-8" />
     );
   }
 
   return (
-    <div className="text-right text-xs font-mono text-neutral-400">
-      <div>{formatTime(time)}</div>
-      <div>{formatDate(time)}</div>
+    <div className="text-center text-xs font-mono text-neutral-400">
+      <div>{formatTime(time)} | {formatDate(time)}</div>
     </div>
   );
 }
