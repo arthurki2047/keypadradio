@@ -2,7 +2,7 @@
 "use client";
 import type { useKeypad } from "@/hooks/use-keypad";
 import Image from "next/image";
-import { Home, List, Music, Star, Play, Pause, SkipBack, SkipForward, ArrowUp, ArrowDown, Mic, Square, Volume2, Volume1, ArrowLeft } from 'lucide-react';
+import { Home, List, Music, Star, Play, Pause, SkipBack, SkipForward, ArrowUp, ArrowDown, Mic, Square, Volume2, Volume1, ArrowLeft, ArrowRight } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Clock } from "../clock";
 
@@ -56,7 +56,7 @@ export function PlayerView({ currentStation, isPlaying, togglePlayPause, playNex
 
       <div className="mt-auto text-[10px] text-muted-foreground space-y-1">
          <p>
-            Use <ArrowUp className="inline w-3 h-3"/> / <ArrowDown className="inline w-3 h-3"/> to change stations.
+            Use <ArrowLeft className="inline w-3 h-3"/> / <ArrowRight className="inline w-3 h-3"/> to change stations.
         </p>
          <p>
             <span className="font-bold p-1 bg-gray-200 dark:bg-gray-700 rounded">2</span> <Volume2 className="inline w-3 h-3"/> / <span className="font-bold p-1 bg-gray-200 dark:bg-gray-700 rounded">3</span> <Volume1 className="inline w-3 h-3"/> to control volume.

@@ -103,31 +103,31 @@ export const useKeypad = () => {
         playStation(filteredStations[prevIndex]);
     }, [currentStation, filteredStations, playStation]);
     
-    const updateMediaSession = useCallback((station: Station | null, playing: boolean) => {
+    const updateMediaSession = useCallback(() => {
       if (typeof window !== 'undefined' && 'mediaSession' in navigator && navigator.mediaSession) {
-          if (!station) {
+          if (!currentStation) {
               navigator.mediaSession.metadata = null;
               navigator.mediaSession.playbackState = 'none';
               return;
           }
 
           navigator.mediaSession.metadata = new MediaMetadata({
-              title: station.name,
+              title: currentStation.name,
               artist: 'Amar Radio',
               artwork: [
-                  { src: station.logoUrl, sizes: '128x128', type: 'image/png' },
+                  { src: currentStation.logoUrl, sizes: '128x128', type: 'image/png' },
               ],
           });
-          navigator.mediaSession.playbackState = playing ? 'playing' : 'paused';
+          navigator.mediaSession.playbackState = isPlaying ? 'playing' : 'paused';
           
           navigator.mediaSession.setActionHandler('previoustrack', playPrevious);
           navigator.mediaSession.setActionHandler('nexttrack', playNext);
       }
-    }, [playNext, playPrevious]); 
+    }, [currentStation, isPlaying, playNext, playPrevious]); 
 
     // Effect for updating media session when station or playing state changes
     useEffect(() => {
-        updateMediaSession(currentStation, isPlaying);
+        updateMediaSession();
     }, [currentStation, isPlaying, updateMediaSession]);
     
 
@@ -234,13 +234,23 @@ export const useKeypad = () => {
     }
 
      const startRecording = useCallback(() => {
-        if (!audioRef.current || !('captureStream' in audioRef.current)) {
-            toast({ variant: "destructive", title: "Recording Error", description: "Recording is not supported in your browser." });
+        if (!audioRef.current || !audioRef.current.src) {
+             toast({ variant: "destructive", title: "Recording Error", description: "No audio source to record." });
             return;
         }
-
-        try {
-            const stream = (audioRef.current as any).captureStream();
+        // Use a separate audio element for recording to avoid issues
+        const recordAudio = new Audio();
+        recordAudio.crossOrigin = "anonymous";
+        recordAudio.src = audioRef.current.src;
+        recordAudio.load();
+       
+        recordAudio.play().then(() => {
+            const stream = (recordAudio as any).captureStream();
+            if(!stream) {
+                 toast({ variant: "destructive", title: "Recording Error", description: "Could not capture audio stream. Check browser support." });
+                 recordAudio.pause();
+                 return;
+            }
             mediaRecorderRef.current = new MediaRecorder(stream, { mimeType: 'audio/webm' });
             recordedChunksRef.current = [];
 
@@ -262,16 +272,19 @@ export const useKeypad = () => {
                 window.URL.revokeObjectURL(url);
                 document.body.removeChild(a);
                 toast({ title: "Recording Saved", description: "Your recording has been downloaded." });
-            };
+                recordAudio.pause();
+                (recordAudio.srcObject as MediaStream)?.getTracks().forEach(track => track.stop());
 
+            };
             mediaRecorderRef.current.start();
             setIsRecording(true);
             toast({ title: "Recording Started" });
-        } catch (error) {
-            console.error("Error starting recording:", error);
-            toast({ variant: "destructive", title: "Recording Error", description: "Could not start recording. Check browser permissions." });
-        }
+        }).catch(e => {
+            console.error("Error starting recording audio element:", e);
+            toast({ variant: "destructive", title: "Recording Error", description: "Could not start audio for recording." });
+        });
     }, [toast, currentStation]);
+
 
     const stopRecording = useCallback(() => {
         if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
@@ -333,7 +346,7 @@ export const useKeypad = () => {
                         setActiveIndex(0);
                     }
                 } else if (key === 'ArrowLeft') {
-                    // Go back from home is not a feature
+                    setView('HOME');
                 }
                 break;
             
@@ -380,8 +393,7 @@ export const useKeypad = () => {
                 else if (key === '2') changeVolume('up');
                 else if (key === '3') changeVolume('down');
                 else if (key === '5' || key === 'Enter') togglePlayPause();
-                else if (key === 'ArrowUp') playPrevious();
-                else if (key === 'ArrowDown') playNext();
+                else if (key === 'ArrowLeft') playPrevious();
                 else if (key === 'ArrowRight') playNext();
                 else if (key === '*') {
                     const previousList = currentStation && presets.includes(currentStation.id) ? 'PRESETS' : 'STATIONS';
