@@ -26,7 +26,7 @@ export function Phone(props: PhoneProps) {
                         </div>
                     )}
                 </div>
-                <Keypad onKeyPress={props.handleKeyPress} />
+                {/* <Keypad onKeyPress={props.handleKeyPress} /> */}
             </div>
         </div>
     );
