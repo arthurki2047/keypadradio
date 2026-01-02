@@ -2,7 +2,7 @@
 "use client";
 import type { useKeypad } from "@/hooks/use-keypad";
 import Image from "next/image";
-import { Home, List, Music, Star, Play, Pause, SkipBack, SkipForward, ArrowUp, ArrowDown, Mic, Square, Volume2, Volume1 } from 'lucide-react';
+import { Home, List, Music, Star, Play, Pause, SkipBack, SkipForward, ArrowUp, ArrowDown, Mic, Square, Volume2, Volume1, ArrowLeft } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Clock } from "../clock";
 
@@ -65,7 +65,7 @@ export function PlayerView({ currentStation, isPlaying, togglePlayPause, playNex
             <span className="font-bold p-1 bg-gray-200 dark:bg-gray-700 rounded">7</span> Add to Presets <Star className="inline w-3 h-3 text-amber-400"/>
         </p>
         <p>
-            <span className="font-bold p-1 bg-gray-200 dark:bg-gray-700 rounded">*</span> Back to List <List className="inline w-3 h-3"/>
+            <span className="font-bold p-1 bg-gray-200 dark:bg-gray-700 rounded"><ArrowLeft className="inline w-3 h-3"/></span> Back to List <List className="inline w-3 h-3"/>
         </p>
         <p>
             <span className="font-bold p-1 bg-gray-200 dark:bg-gray-700 rounded">1</span> Main Menu <Home className="inline w-3 h-3"/>
@@ -74,3 +74,5 @@ export function PlayerView({ currentStation, isPlaying, togglePlayPause, playNex
     </div>
   );
 }
+
+    

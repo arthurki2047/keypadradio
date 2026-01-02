@@ -69,6 +69,39 @@ export const useKeypad = () => {
             }
         };
     }, [resetInactivityTimer]);
+
+    const playStation = useCallback((station: Station) => {
+        if (audioRef.current) {
+            audioRef.current.src = station.streamUrl;
+            audioRef.current.load();
+            const playPromise = audioRef.current.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    setIsPlaying(true);
+                }).catch(e => {
+                    console.error("Playback failed", e);
+                    setIsPlaying(false);
+                    toast({ variant: "destructive", title: "Playback Error", description: "Could not play station. The stream may be offline or unavailable." });
+                });
+            }
+            setCurrentStation(station);
+            setView('PLAYER');
+        }
+    }, [toast]);
+    
+    const playNext = useCallback(() => {
+        if (!currentStation || filteredStations.length === 0) return;
+        const currentIndex = filteredStations.findIndex(s => s.id === currentStation.id);
+        const nextIndex = (currentIndex + 1) % filteredStations.length;
+        playStation(filteredStations[nextIndex]);
+    }, [currentStation, filteredStations, playStation]);
+
+    const playPrevious = useCallback(() => {
+        if (!currentStation || filteredStations.length === 0) return;
+        const currentIndex = filteredStations.findIndex(s => s.id === currentStation.id);
+        const prevIndex = (currentIndex - 1 + filteredStations.length) % filteredStations.length;
+        playStation(filteredStations[prevIndex]);
+    }, [currentStation, filteredStations, playStation]);
     
     const updateMediaSession = useCallback((station: Station | null, playing: boolean) => {
         if (typeof window !== 'undefined' && 'mediaSession' in navigator && navigator.mediaSession) {
@@ -90,42 +123,7 @@ export const useKeypad = () => {
             navigator.mediaSession.setActionHandler('previoustrack', playPrevious);
             navigator.mediaSession.setActionHandler('nexttrack', playNext);
         }
-    }, []); // playNext and playPrevious removed to avoid re-creation issues. They are defined later but are stable.
-
-    const playStation = useCallback((station: Station) => {
-        if (audioRef.current) {
-            audioRef.current.src = station.streamUrl;
-            audioRef.current.load();
-            const playPromise = audioRef.current.play();
-            if (playPromise !== undefined) {
-                playPromise.then(() => {
-                    setIsPlaying(true);
-                    updateMediaSession(station, true);
-                }).catch(e => {
-                    console.error("Playback failed", e);
-                    setIsPlaying(false);
-                    updateMediaSession(station, false);
-                    toast({ variant: "destructive", title: "Playback Error", description: "Could not play station. The stream may be offline or unavailable." });
-                });
-            }
-            setCurrentStation(station);
-            setView('PLAYER');
-        }
-    }, [toast, updateMediaSession]);
-
-    const playNext = useCallback(() => {
-        if (!currentStation || filteredStations.length === 0) return;
-        const currentIndex = filteredStations.findIndex(s => s.id === currentStation.id);
-        const nextIndex = (currentIndex + 1) % filteredStations.length;
-        playStation(filteredStations[nextIndex]);
-    }, [currentStation, filteredStations, playStation]);
-
-    const playPrevious = useCallback(() => {
-        if (!currentStation || filteredStations.length === 0) return;
-        const currentIndex = filteredStations.findIndex(s => s.id === currentStation.id);
-        const prevIndex = (currentIndex - 1 + filteredStations.length) % filteredStations.length;
-        playStation(filteredStations[prevIndex]);
-    }, [currentStation, filteredStations, playStation]);
+    }, [playNext, playPrevious]); 
 
     // Effect for updating media session when station or playing state changes
     useEffect(() => {
@@ -334,7 +332,7 @@ export const useKeypad = () => {
                         setView(selectedItem.view);
                         setActiveIndex(0);
                     }
-                } else if (key === 'ArrowLeft' || key === '*') {
+                } else if (key === 'ArrowLeft') {
                     // Go back from home is not a feature
                 }
                 break;
@@ -349,7 +347,7 @@ export const useKeypad = () => {
                         playStation(filteredStations[activeIndex]);
                     }
                 }
-                else if (key === 'ArrowLeft' || key === '*') { setView('HOME'); setActiveIndex(0); }
+                else if (key === 'ArrowLeft') { setView('HOME'); setActiveIndex(0); }
                 else if (view === 'SEARCH') {
                     if (key >= '2' && key <= '9') {
                         const chars = T9_MAP[key];
@@ -385,7 +383,7 @@ export const useKeypad = () => {
                 else if (key === 'ArrowUp') playPrevious();
                 else if (key === 'ArrowDown') playNext();
                 else if (key === 'ArrowRight') playNext();
-                else if (key === 'ArrowLeft' || key === '*') {
+                else if (key === 'ArrowLeft') {
                     const previousList = currentStation && presets.includes(currentStation.id) ? 'PRESETS' : 'STATIONS';
                     setView(previousList);
                 }
@@ -451,3 +449,5 @@ export const useKeypad = () => {
         playPrevious,
     };
 };
+
+    
