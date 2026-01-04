@@ -14,4 +14,5 @@ export const stations: Station[] = [
   { id: 's18', name: 'Akashvani Shantiniketan', streamUrl: 'https://air.pc.cdn.bitgravity.com/air/live/pbaudio247/playlist.m3u8', logoUrl: 'https://picsum.photos/seed/shantiniketan/128/128' },
   { id: 's19', name: 'Radio Mirchi', streamUrl: 'https://19013.live.streamtheworld.com/NJS_HIN_EST_SC', logoUrl: 'https://picsum.photos/seed/mirchi/128/128' },
   { id: 's20', name: '92.7 Big FM', streamUrl: 'https://stream-151.zeno.fm/dbstwo3dvhhtv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJkYnN0d28zZHZoaHR2IiwiaG9zdCI6InN0cmVhbS0xNTEuemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoiaTRfVTVxR2NSMm0tQkZjdkZ6YWpZdyIsImlhdCI6MTc2NzM2ODYzOSwiZXhwIjoxNzY3MzY4Njk5fQ.5sDato9OmL9l08ggeBd8oguwSwGFcM5b8hsAEXwR4NA', logoUrl: 'https://picsum.photos/seed/bigfm/128/128' },
+  { id: 's21', name: 'Red FM', streamUrl: 'https://stream-175.zeno.fm/q97eczydqrhvv', logoUrl: 'https://picsum.photos/seed/redfm/128/128' },
 ];
