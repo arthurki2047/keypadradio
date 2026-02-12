@@ -315,8 +315,8 @@ export const useKeypad = () => {
                 break;
 
             case 'PLAYER':
-                if (key === '2') changeVolume('up');
-                else if (key === '3') changeVolume('down');
+                if (key === 'ArrowUp') changeVolume('up');
+                else if (key === 'ArrowDown') changeVolume('down');
                 else if (key === '5' || key === 'Enter') togglePlayPause();
                 else if (key === 'ArrowLeft') playPrevious();
                 else if (key === 'ArrowRight') playNext();
@@ -384,5 +384,3 @@ export const useKeypad = () => {
         playPrevious,
     };
 };
-
-    
