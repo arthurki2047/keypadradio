@@ -20,7 +20,7 @@ const homeMenuItems = [
 const INACTIVITY_TIMEOUT = 30000; // 30 seconds
 
 export const useKeypad = () => {
-    const [view, setView] = useState<View>('HOME');
+    const [view, _setView] = useState<View>('HOME');
     const [allStations] = useState<Station[]>(stations);
     const [filteredStations, setFilteredStations] = useState<Station[]>(stations);
     const [activeIndex, setActiveIndex] = useState(0);
@@ -37,6 +37,39 @@ export const useKeypad = () => {
 
     const [isScreenOn, setIsScreenOn] = useState(true);
     const inactivityTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+    // History management
+    useEffect(() => {
+        const handlePopState = (event: PopStateEvent) => {
+            _setView(event.state?.view || 'HOME');
+        };
+
+        window.addEventListener('popstate', handlePopState);
+        
+        // On initial load, replace the current history state.
+        if (window.history.state?.view !== 'HOME') {
+            window.history.replaceState({ view: 'HOME' }, '');
+        }
+
+        return () => {
+            window.removeEventListener('popstate', handlePopState);
+        };
+    }, []);
+
+    const setView = useCallback((newView: View) => {
+        if (newView === view) return;
+
+        const viewHierarchy = { 'HOME': 0, 'STATIONS': 1, 'SEARCH': 1, 'PRESETS': 1, 'PLAYER': 2 };
+        
+        // For backward navigation, let the popstate handler update the view
+        if (viewHierarchy[newView] < viewHierarchy[view]) {
+            window.history.back();
+        } else {
+            _setView(newView);
+            window.history.pushState({ view: newView }, '');
+        }
+    }, [view]);
+    // End history management
 
     const resetInactivityTimer = useCallback(() => {
         if (inactivityTimerRef.current) {
@@ -85,7 +118,7 @@ export const useKeypad = () => {
             setCurrentStation(station);
             setView('PLAYER');
         }
-    }, [toast, volume]);
+    }, [toast, volume, setView]);
     
     const playNext = useCallback(() => {
         if (!currentStation || filteredStations.length === 0) return;
@@ -279,7 +312,7 @@ export const useKeypad = () => {
                         setActiveIndex(0);
                     }
                 } else if (key === 'ArrowLeft') {
-                    setView('HOME');
+                    // On home, let browser handle back
                 }
                 break;
             
@@ -293,7 +326,7 @@ export const useKeypad = () => {
                         playStation(filteredStations[activeIndex]);
                     }
                 }
-                else if (key === 'ArrowLeft') { setView('HOME'); setActiveIndex(0); }
+                else if (key === 'ArrowLeft' || key === 'Backspace') { setView('HOME'); setActiveIndex(0); }
                 else if (view === 'SEARCH') {
                     if (key >= '2' && key <= '9') {
                         const chars = T9_MAP[key];
@@ -325,7 +358,7 @@ export const useKeypad = () => {
                 else if (key === '5' || key === 'Enter') togglePlayPause();
                 else if (key === 'ArrowLeft') playPrevious();
                 else if (key === 'ArrowRight') playNext();
-                else if (key === '*') {
+                else if (key === '*' || key === 'Backspace') {
                     const previousList = currentStation && presets.includes(currentStation.id) ? 'PRESETS' : 'STATIONS';
                     setView(previousList);
                 }
@@ -335,11 +368,19 @@ export const useKeypad = () => {
                 else if(key === '7') addToPresets();
                 break;
         }
-    }, [view, activeIndex, filteredStations, playStation, togglePlayPause, addToPresets, allStations, presets, searchTerm, lastKeyPressed, currentStation, playNext, playPrevious, wakeScreen, changeVolume]);
+    }, [view, activeIndex, filteredStations, playStation, togglePlayPause, addToPresets, allStations, presets, searchTerm, lastKeyPressed, currentStation, playNext, playPrevious, wakeScreen, changeVolume, setView]);
 
     useEffect(() => {
         const keydownHandler = (e: KeyboardEvent) => {
-            e.preventDefault();
+            // Prevent default browser actions for keys we handle, except for Backspace
+            // which we want to allow for browser navigation when appropriate.
+            if (e.key !== 'Backspace') {
+                e.preventDefault();
+            } else if (view !== 'HOME') {
+                // Prevent Backspace from navigating browser history if we're not on the home screen
+                e.preventDefault();
+            }
+
             // Map numpad keys to regular number keys
             if (e.code.startsWith('Numpad')) {
                 if(e.code === 'NumpadEnter') {
@@ -356,16 +397,13 @@ export const useKeypad = () => {
                 }
                 const digit = e.code.replace('Numpad', '');
                 handleKeyPress(digit);
-            } else if (e.key === 'Backspace') {
-                handleKeyPress('#');
-            }
-            else {
+            } else {
                 handleKeyPress(e.key);
             }
         };
         window.addEventListener('keydown', keydownHandler);
         return () => window.removeEventListener('keydown', keydownHandler);
-    }, [handleKeyPress]);
+    }, [handleKeyPress, view]);
 
 
     return {
