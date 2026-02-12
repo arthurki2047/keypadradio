@@ -37,10 +37,6 @@ export const useKeypad = () => {
     const [isScreenOn, setIsScreenOn] = useState(true);
     const inactivityTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-    const [isRecording, setIsRecording] = useState(false);
-    const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-    const recordedChunksRef = useRef<Blob[]>([]);
-
     const resetInactivityTimer = useCallback(() => {
         if (inactivityTimerRef.current) {
             clearTimeout(inactivityTimerRef.current);
@@ -233,74 +229,6 @@ export const useKeypad = () => {
         setActiveIndex(0);
     }
 
-     const startRecording = useCallback(() => {
-        if (!audioRef.current || !audioRef.current.src) {
-             toast({ variant: "destructive", title: "Recording Error", description: "No audio source to record." });
-            return;
-        }
-        // Use a separate audio element for recording to avoid issues
-        const recordAudio = new Audio();
-        recordAudio.crossOrigin = "anonymous";
-        recordAudio.src = audioRef.current.src;
-        recordAudio.load();
-       
-        recordAudio.play().then(() => {
-            const stream = (recordAudio as any).captureStream();
-            if(!stream) {
-                 toast({ variant: "destructive", title: "Recording Error", description: "Could not capture audio stream. Check browser support." });
-                 recordAudio.pause();
-                 return;
-            }
-            mediaRecorderRef.current = new MediaRecorder(stream, { mimeType: 'audio/webm' });
-            recordedChunksRef.current = [];
-
-            mediaRecorderRef.current.ondataavailable = (event) => {
-                if (event.data.size > 0) {
-                    recordedChunksRef.current.push(event.data);
-                }
-            };
-
-            mediaRecorderRef.current.onstop = () => {
-                const blob = new Blob(recordedChunksRef.current, { type: 'audio/wav' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.style.display = 'none';
-                a.href = url;
-                a.download = `AmarRadio-${currentStation?.name.replace(/ /g, '_') ?? 'recording'}-${new Date().toISOString()}.wav`;
-                document.body.appendChild(a);
-                a.click();
-                window.URL.revokeObjectURL(url);
-                document.body.removeChild(a);
-                toast({ title: "Recording Saved", description: "Your recording has been downloaded." });
-                recordAudio.pause();
-                (recordAudio.srcObject as MediaStream)?.getTracks().forEach(track => track.stop());
-
-            };
-            mediaRecorderRef.current.start();
-            setIsRecording(true);
-            toast({ title: "Recording Started" });
-        }).catch(e => {
-            console.error("Error starting recording audio element:", e);
-            toast({ variant: "destructive", title: "Recording Error", description: "Could not start audio for recording." });
-        });
-    }, [toast, currentStation]);
-
-
-    const stopRecording = useCallback(() => {
-        if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
-            mediaRecorderRef.current.stop();
-            setIsRecording(false);
-        }
-    }, []);
-
-    const toggleRecording = useCallback(() => {
-        if (isRecording) {
-            stopRecording();
-        } else {
-            startRecording();
-        }
-    }, [isRecording, startRecording, stopRecording]);
-
     const changeVolume = useCallback((direction: 'up' | 'down') => {
         if (audioRef.current) {
             const currentVolume = audioRef.current.volume;
@@ -387,10 +315,7 @@ export const useKeypad = () => {
                 break;
 
             case 'PLAYER':
-                 if (key === '8') {
-                    toggleRecording();
-                }
-                else if (key === '2') changeVolume('up');
+                if (key === '2') changeVolume('up');
                 else if (key === '3') changeVolume('down');
                 else if (key === '5' || key === 'Enter') togglePlayPause();
                 else if (key === 'ArrowLeft') playPrevious();
@@ -405,7 +330,7 @@ export const useKeypad = () => {
                 else if(key === '7') addToPresets();
                 break;
         }
-    }, [view, activeIndex, filteredStations, playStation, togglePlayPause, addToPresets, allStations, presets, searchTerm, lastKeyPressed, currentStation, playNext, playPrevious, wakeScreen, toggleRecording, changeVolume]);
+    }, [view, activeIndex, filteredStations, playStation, togglePlayPause, addToPresets, allStations, presets, searchTerm, lastKeyPressed, currentStation, playNext, playPrevious, wakeScreen, changeVolume]);
 
     useEffect(() => {
         const keydownHandler = (e: KeyboardEvent) => {
@@ -448,8 +373,6 @@ export const useKeypad = () => {
         searchTerm,
         audioRef,
         isScreenOn,
-        isRecording,
-        toggleRecording,
         handleKeyPress,
         handleCanPlay,
         allStations,
