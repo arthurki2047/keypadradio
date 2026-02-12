@@ -150,11 +150,8 @@ export const useKeypad = () => {
               ],
           });
           navigator.mediaSession.playbackState = isPlaying ? 'playing' : 'paused';
-          
-          navigator.mediaSession.setActionHandler('previoustrack', playPrevious);
-          navigator.mediaSession.setActionHandler('nexttrack', playNext);
       }
-    }, [currentStation, isPlaying, playNext, playPrevious]); 
+    }, [currentStation, isPlaying]); 
 
     // Effect for updating media session when station or playing state changes
     useEffect(() => {
@@ -200,6 +197,8 @@ export const useKeypad = () => {
         if (typeof window !== 'undefined' && 'mediaSession' in navigator && navigator.mediaSession) {
             navigator.mediaSession.setActionHandler('play', () => togglePlayPause());
             navigator.mediaSession.setActionHandler('pause', () => togglePlayPause());
+            navigator.mediaSession.setActionHandler('previoustrack', playPrevious);
+            navigator.mediaSession.setActionHandler('nexttrack', playNext);
         }
 
         return () => {
@@ -210,7 +209,7 @@ export const useKeypad = () => {
                 navigator.mediaSession.setActionHandler('nexttrack', null);
             }
         }
-    }, [togglePlayPause]); 
+    }, [togglePlayPause, playNext, playPrevious]); 
 
     const handleCanPlay = () => {
         if (audioRef.current && audioRef.current.paused && view === 'PLAYER' && currentStation) {
