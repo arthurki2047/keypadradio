@@ -28,6 +28,7 @@ export const useKeypad = () => {
     const [isPlaying, setIsPlaying] = useState(false);
     const [presets, setPresets] = useState<string[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
+    const [volume, setVolume] = useState(1.0);
     const audioRef = useRef<HTMLAudioElement>(null);
     const { toast } = useToast();
 
@@ -69,6 +70,7 @@ export const useKeypad = () => {
     const playStation = useCallback((station: Station) => {
         if (audioRef.current) {
             audioRef.current.src = station.streamUrl;
+            audioRef.current.volume = volume;
             audioRef.current.load();
             const playPromise = audioRef.current.play();
             if (playPromise !== undefined) {
@@ -83,7 +85,7 @@ export const useKeypad = () => {
             setCurrentStation(station);
             setView('PLAYER');
         }
-    }, [toast]);
+    }, [toast, volume]);
     
     const playNext = useCallback(() => {
         if (!currentStation || filteredStations.length === 0) return;
@@ -136,6 +138,7 @@ export const useKeypad = () => {
              if (audioRef.current) {
                 if (audioRef.current.src !== currentStation.streamUrl) {
                     audioRef.current.src = currentStation.streamUrl;
+                    audioRef.current.volume = volume;
                     audioRef.current.load();
                 }
                 const playPromise = audioRef.current.play();
@@ -149,7 +152,7 @@ export const useKeypad = () => {
                 }
             }
         }
-    }, [isPlaying, currentStation]);
+    }, [isPlaying, currentStation, volume]);
 
     useEffect(() => {
         try {
@@ -230,18 +233,20 @@ export const useKeypad = () => {
     }
 
     const changeVolume = useCallback((direction: 'up' | 'down') => {
-        if (audioRef.current) {
-            const currentVolume = audioRef.current.volume;
-            let newVolume;
-            if (direction === 'up') {
-                newVolume = Math.min(currentVolume + 0.1, 1);
-            } else {
-                newVolume = Math.max(currentVolume - 0.1, 0);
-            }
-            audioRef.current.volume = newVolume;
-            toast({ title: "Volume", description: `${Math.round(newVolume * 100)}%` });
+        let newVolume = volume;
+        if (direction === 'up') {
+            newVolume = Math.min(volume + 0.1, 1);
+        } else {
+            newVolume = Math.max(volume - 0.1, 0);
         }
-    }, [toast]);
+        newVolume = Math.round(newVolume * 10) / 10;
+        setVolume(newVolume);
+
+        if (audioRef.current) {
+            audioRef.current.volume = newVolume;
+        }
+        toast({ title: "Volume", description: `${Math.round(newVolume * 100)}%` });
+    }, [toast, volume]);
 
 
     const handleKeyPress = useCallback((key: string) => {
