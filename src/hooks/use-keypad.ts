@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from 'react';
@@ -14,7 +13,7 @@ const T9_MAP: { [key: string]: string } = {
 const homeMenuItems = [
   { label: "Stations", view: "STATIONS" as const },
   { label: "Search", view: "SEARCH" as const },
-  { label: "Presets", view: "PRESETS" as const },
+  { label: "Favorites", view: "FAVORITES" as const },
 ];
 
 const INACTIVITY_TIMEOUT = 30000; // 30 seconds
@@ -26,7 +25,7 @@ export const useKeypad = () => {
     const [activeIndex, setActiveIndex] = useState(0);
     const [currentStation, setCurrentStation] = useState<Station | null>(null);
     const [isPlaying, setIsPlaying] = useState(false);
-    const [presets, setPresets] = useState<string[]>([]);
+    const [favorites, setFavorites] = useState<string[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [volume, setVolume] = useState(1.0);
     const audioRef = useRef<HTMLAudioElement>(null);
@@ -46,7 +45,6 @@ export const useKeypad = () => {
 
         window.addEventListener('popstate', handlePopState);
         
-        // On initial load, replace the current history state.
         if (window.history.state?.view !== 'HOME') {
             window.history.replaceState({ view: 'HOME' }, '');
         }
@@ -59,9 +57,8 @@ export const useKeypad = () => {
     const setView = useCallback((newView: View) => {
         if (newView === view) return;
 
-        const viewHierarchy = { 'HOME': 0, 'STATIONS': 1, 'SEARCH': 1, 'PRESETS': 1, 'PLAYER': 2 };
+        const viewHierarchy: Record<View, number> = { 'HOME': 0, 'STATIONS': 1, 'SEARCH': 1, 'FAVORITES': 1, 'PLAYER': 2 };
         
-        // For backward navigation, let the popstate handler update the view
         if (viewHierarchy[newView] < viewHierarchy[view]) {
             window.history.back();
         } else {
@@ -83,10 +80,10 @@ export const useKeypad = () => {
         if (!isScreenOn) {
             setIsScreenOn(true);
             resetInactivityTimer();
-            return true; // Screen was woken up
+            return true;
         }
         resetInactivityTimer();
-        return false; // Screen was already on
+        return false;
     }, [isScreenOn, resetInactivityTimer]);
 
 
@@ -184,12 +181,12 @@ export const useKeypad = () => {
 
     useEffect(() => {
         try {
-            const storedPresets = localStorage.getItem('amarRadioPresets');
-            if (storedPresets) {
-                setPresets(JSON.parse(storedPresets));
+            const storedFavorites = localStorage.getItem('amarRadioFavorites');
+            if (storedFavorites) {
+                setFavorites(JSON.parse(storedFavorites));
             }
         } catch (error) {
-            console.error("Could not load presets from localStorage", error);
+            console.error("Could not load favorites from localStorage", error);
         }
 
         if (typeof window !== 'undefined' && 'mediaSession' in navigator && navigator.mediaSession) {
@@ -234,22 +231,22 @@ export const useKeypad = () => {
       setActiveIndex(newIndex);
     };
 
-    const addToPresets = useCallback(() => {
+    const addToFavorites = useCallback(() => {
         if (!currentStation) return;
-        if (presets.includes(currentStation.id)) {
-            toast({ title: "Already in Presets", description: `${currentStation.name} is already a favorite.` });
+        if (favorites.includes(currentStation.id)) {
+            toast({ title: "Already in Favorites", description: `${currentStation.name} is already a favorite.` });
             return;
         }
-        const newPresets = [...presets, currentStation.id];
-        setPresets(newPresets);
+        const newFavorites = [...favorites, currentStation.id];
+        setFavorites(newFavorites);
         try {
-            localStorage.setItem('amarRadioPresets', JSON.stringify(newPresets));
-            toast({ title: "Preset Saved", description: `${currentStation.name} added to your favorites.` });
+            localStorage.setItem('amarRadioFavorites', JSON.stringify(newFavorites));
+            toast({ title: "Favorite Saved", description: `${currentStation.name} added to your favorites.` });
         } catch (error) {
-            console.error("Could not save presets to localStorage", error);
-            toast({ variant: "destructive", title: "Error", description: "Could not save preset." });
+            console.error("Could not save favorites to localStorage", error);
+            toast({ variant: "destructive", title: "Error", description: "Could not save favorite." });
         }
-    }, [currentStation, presets, toast]);
+    }, [currentStation, favorites, toast]);
     
     const handleSearch = (term: string) => {
         setSearchTerm(term);
@@ -300,9 +297,9 @@ export const useKeypad = () => {
                             setFilteredStations(allStations);
                         } else if (selectedItem.view === 'STATIONS') {
                             setFilteredStations(allStations);
-                        } else if (selectedItem.view === 'PRESETS') {
-                            const presetStations = allStations.filter(s => presets.includes(s.id));
-                            setFilteredStations(presetStations);
+                        } else if (selectedItem.view === 'FAVORITES') {
+                            const favoriteStations = allStations.filter(s => favorites.includes(s.id));
+                            setFilteredStations(favoriteStations);
                         }
                         setView(selectedItem.view);
                         setActiveIndex(0);
@@ -311,7 +308,7 @@ export const useKeypad = () => {
                 break;
             
             case 'STATIONS':
-            case 'PRESETS':
+            case 'FAVORITES':
             case 'SEARCH':
                 if (key === 'ArrowUp') handleListNavigation('up', filteredStations);
                 else if (key === 'ArrowDown') handleListNavigation('down', filteredStations);
@@ -356,17 +353,16 @@ export const useKeypad = () => {
                 else if (key === 'ArrowLeft') playPrevious();
                 else if (key === 'ArrowRight') playNext();
                 else if (key === '*' || key === 'Backspace') {
-                    // Always return to the channel list (STATIONS) as requested
                     setFilteredStations(allStations);
                     setView('STATIONS');
                 }
                 else if (key === '1') {
                   setView('HOME');
                 }
-                else if(key === '7') addToPresets();
+                else if(key === '7') addToFavorites();
                 break;
         }
-    }, [view, activeIndex, filteredStations, playStation, togglePlayPause, addToPresets, allStations, presets, searchTerm, lastKeyPressed, currentStation, playNext, playPrevious, wakeScreen, changeVolume, setView]);
+    }, [view, activeIndex, filteredStations, playStation, togglePlayPause, addToFavorites, allStations, favorites, searchTerm, lastKeyPressed, currentStation, playNext, playPrevious, wakeScreen, changeVolume, setView]);
 
     useEffect(() => {
         const keydownHandler = (e: KeyboardEvent) => {
@@ -406,7 +402,7 @@ export const useKeypad = () => {
         activeIndex,
         currentStation,
         isPlaying,
-        presets,
+        favorites,
         searchTerm,
         audioRef,
         isScreenOn,

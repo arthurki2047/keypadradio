@@ -5,4 +5,4 @@ export interface Station {
   logoUrl: string;
 }
 
-export type View = 'HOME' | 'STATIONS' | 'PLAYER' | 'SEARCH' | 'PRESETS';
+export type View = 'HOME' | 'STATIONS' | 'PLAYER' | 'SEARCH' | 'FAVORITES';

@@ -1,11 +1,10 @@
-
 "use client";
 
 import { HomeView } from './views/home-view';
 import { StationsView } from './views/stations-view';
 import { PlayerView } from './views/player-view';
 import { SearchView } from './views/search-view';
-import { PresetsView } from './views/presets-view';
+import { FavoritesView } from './views/favorites-view';
 import { useKeypad } from '@/hooks/use-keypad';
 import { AnimatePresence, motion } from 'framer-motion';
 
@@ -22,8 +21,8 @@ export function Screen(props: ScreenProps) {
         return <PlayerView {...props} />;
       case 'SEARCH':
         return <SearchView {...props} />;
-      case 'PRESETS':
-        return <PresetsView {...props} />;
+      case 'FAVORITES':
+        return <FavoritesView {...props} />;
       default:
         return <HomeView {...props} />;
     }
