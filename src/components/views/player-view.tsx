@@ -51,9 +51,6 @@ export function PlayerView({ currentStation, isPlaying, togglePlayPause, playNex
          <p>
             Use <ArrowLeft className="inline w-3 h-3"/> / <ArrowRight className="inline w-3 h-3"/> to change stations.
         </p>
-         <p>
-            Use <ArrowUp className="inline w-3 h-3"/> / <ArrowDown className="inline w-3 h-3"/> to control volume.
-        </p>
         <p>
             <span className="font-bold p-1 bg-gray-200 dark:bg-gray-700 rounded">7</span> Add to Presets <Star className="inline w-3 h-3 text-amber-400"/>
         </p>
