@@ -1,4 +1,3 @@
-
 "use client";
 
 import type { useKeypad } from "@/hooks/use-keypad";
@@ -52,9 +51,6 @@ export function SearchView({ searchTerm, filteredStations, activeIndex }: Search
             <li className="text-center text-muted-foreground p-8">No stations found for "{searchTerm}".</li>
         )}
       </ul>
-      <div className="text-center text-xs text-muted-foreground p-1 border-t">
-        Use keypad to search. # for backspace.
-      </div>
     </div>
   );
 }

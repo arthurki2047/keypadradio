@@ -1,4 +1,3 @@
-
 "use client";
 
 import type { useKeypad } from "@/hooks/use-keypad";
@@ -46,13 +45,9 @@ export function PresetsView({ filteredStations, activeIndex }: PresetsViewProps)
         )) : (
             <div className="flex flex-col items-center justify-center h-full text-center text-muted-foreground">
                 <p>No presets saved yet.</p>
-                <p className="text-xs mt-2">Press '7' on the player screen to save a station.</p>
             </div>
         )}
       </ul>
-       <div className="text-center text-xs text-muted-foreground p-1 border-t">
-        Use ▲/▼ to navigate, OK to play.
-      </div>
     </div>
   );
 }

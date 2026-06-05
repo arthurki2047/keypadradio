@@ -1,4 +1,3 @@
-
 "use client";
 
 import type { useKeypad } from "@/hooks/use-keypad";
@@ -48,9 +47,6 @@ export function StationsView({ filteredStations, activeIndex }: StationsViewProp
             <li className="text-center text-muted-foreground p-8">No stations found.</li>
         )}
       </ul>
-      <div className="text-center text-xs text-muted-foreground p-1 border-t">
-        Use ▲/▼ to navigate, OK to play.
-      </div>
     </div>
   );
 }
