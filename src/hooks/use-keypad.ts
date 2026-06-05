@@ -69,7 +69,6 @@ export const useKeypad = () => {
             window.history.pushState({ view: newView }, '');
         }
     }, [view]);
-    // End history management
 
     const resetInactivityTimer = useCallback(() => {
         if (inactivityTimerRef.current) {
@@ -153,7 +152,6 @@ export const useKeypad = () => {
       }
     }, [currentStation, isPlaying]); 
 
-    // Effect for updating media session when station or playing state changes
     useEffect(() => {
         updateMediaSession();
     }, [currentStation, isPlaying, updateMediaSession]);
@@ -224,7 +222,6 @@ export const useKeypad = () => {
              }
         }
     };
-    
     
     const handleListNavigation = (direction: 'up' | 'down', list: any[]) => {
       if (list.length === 0) return;
@@ -310,8 +307,6 @@ export const useKeypad = () => {
                         setView(selectedItem.view);
                         setActiveIndex(0);
                     }
-                } else if (key === 'ArrowLeft') {
-                    // On home, let browser handle back
                 }
                 break;
             
@@ -325,7 +320,10 @@ export const useKeypad = () => {
                         playStation(filteredStations[activeIndex]);
                     }
                 }
-                else if (key === 'ArrowLeft' || key === 'Backspace') { setView('HOME'); setActiveIndex(0); }
+                else if (key === 'ArrowLeft' || key === 'Backspace' || key === '*') { 
+                    setView('HOME'); 
+                    setActiveIndex(0); 
+                }
                 else if (view === 'SEARCH') {
                     if (key >= '2' && key <= '9') {
                         const chars = T9_MAP[key];
@@ -358,8 +356,9 @@ export const useKeypad = () => {
                 else if (key === 'ArrowLeft') playPrevious();
                 else if (key === 'ArrowRight') playNext();
                 else if (key === '*' || key === 'Backspace') {
-                    const previousList = currentStation && presets.includes(currentStation.id) ? 'PRESETS' : 'STATIONS';
-                    setView(previousList);
+                    // Always return to the channel list (STATIONS) as requested
+                    setFilteredStations(allStations);
+                    setView('STATIONS');
                 }
                 else if (key === '1') {
                   setView('HOME');
@@ -371,16 +370,12 @@ export const useKeypad = () => {
 
     useEffect(() => {
         const keydownHandler = (e: KeyboardEvent) => {
-            // Prevent default browser actions for keys we handle, except for Backspace
-            // which we want to allow for browser navigation when appropriate.
             if (e.key !== 'Backspace') {
                 e.preventDefault();
             } else if (view !== 'HOME') {
-                // Prevent Backspace from navigating browser history if we're not on the home screen
                 e.preventDefault();
             }
 
-            // Map numpad keys to regular number keys
             if (e.code.startsWith('Numpad')) {
                 if(e.code === 'NumpadEnter') {
                     handleKeyPress('Enter');
