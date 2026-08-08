@@ -31,23 +31,28 @@ export function HomeView({ activeIndex, setView, setActiveIndex, setFilteredStat
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-full text-foreground p-4">
-      <Radio className="w-16 h-16 text-primary animate-pulse" />
-      <h2 className="text-2xl font-headline font-bold mt-4">Amar Radio</h2>
-      <p className="text-muted-foreground text-[10px]">Your daily dose of music</p>
-      <div className="mt-6 w-full max-w-[200px]">
-        <ul className="space-y-1.5">
+    <div className="flex flex-col items-center justify-center h-full text-foreground p-6 bg-gradient-to-b from-background to-muted/20">
+      <div className="flex flex-col items-center mb-10 text-center">
+        <div className="p-4 bg-primary/10 rounded-full mb-4 shadow-inner">
+          <Radio className="w-16 h-16 text-primary animate-pulse" />
+        </div>
+        <h2 className="text-3xl font-headline font-bold text-primary tracking-tight">Amar Radio</h2>
+        <p className="text-muted-foreground text-xs mt-2 uppercase tracking-[0.2em] font-bold opacity-60">Daily Bangla Music</p>
+      </div>
+
+      <div className="w-full max-w-[220px]">
+        <ul className="space-y-2.5">
           {menuItems.map((item, index) => (
             <li key={item.label} ref={index === activeIndex ? activeItemRef : null}>
               <button
                 onClick={() => handleMenuClick(item.view)}
-                className={`w-full text-left p-2 rounded-lg transition-colors focus:outline-none text-sm ${
+                className={`w-full text-left px-5 py-3.5 rounded-2xl transition-all duration-300 focus:outline-none text-sm font-semibold border ${
                   index === activeIndex
-                    ? 'bg-primary text-primary-foreground shadow-sm scale-[1.02]'
-                    : 'bg-background hover:bg-primary/5 border border-border/50'
+                    ? 'bg-primary text-primary-foreground shadow-xl scale-[1.05] border-primary z-10 relative'
+                    : 'bg-card/50 hover:bg-muted/80 border-border/40 backdrop-blur-sm'
                 }`}
               >
-                <span className="font-bold mr-2 opacity-50">{index + 1}.</span> {item.label}
+                <span className="opacity-40 mr-4 font-mono text-xs">{index + 1}</span> {item.label}
               </button>
             </li>
           ))}

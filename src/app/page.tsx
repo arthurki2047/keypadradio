@@ -14,14 +14,13 @@ export default function Home({
   const keypadState = useKeypad();
 
   return (
-    <main className="flex h-screen w-full flex-col items-center justify-center bg-gray-300 dark:bg-gray-800 p-4 overflow-hidden">
+    <main className="flex h-screen w-full flex-col items-center justify-center bg-neutral-200 dark:bg-neutral-900 p-4 overflow-hidden">
       <motion.div
         className="flex flex-col items-center"
-        initial={{ opacity: 0, scale: 0.8 }}
+        initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5, ease: 'easeOut' }}
+        transition={{ duration: 0.6, ease: 'easeOut' }}
       >
-        <h1 className="text-4xl font-headline font-bold text-primary mb-4">Amar Radio</h1>
         <Phone {...keypadState} />
       </motion.div>
       <AudioPlayer
