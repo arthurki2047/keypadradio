@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from 'react';
@@ -15,6 +14,7 @@ const homeMenuItems = [
   { label: "Stations", view: "STATIONS" as const },
   { label: "Search", view: "SEARCH" as const },
   { label: "Favorites", view: "FAVORITES" as const },
+  { label: "Guide", view: "GUIDE" as const },
 ];
 
 const INACTIVITY_TIMEOUT = 30000; // 30 seconds
@@ -58,7 +58,7 @@ export const useKeypad = () => {
     const setView = useCallback((newView: View) => {
         if (newView === view) return;
 
-        const viewHierarchy: Record<View, number> = { 'HOME': 0, 'STATIONS': 1, 'SEARCH': 1, 'FAVORITES': 1, 'PLAYER': 2 };
+        const viewHierarchy: Record<View, number> = { 'HOME': 0, 'STATIONS': 1, 'SEARCH': 1, 'FAVORITES': 1, 'GUIDE': 1, 'PLAYER': 2 };
         
         if (viewHierarchy[newView] < viewHierarchy[view]) {
             window.history.back();
@@ -109,7 +109,7 @@ export const useKeypad = () => {
                 }).catch(e => {
                     console.error("Playback failed", e);
                     setIsPlaying(false);
-                    toast({ variant: "destructive", title: "Playback Error", description: "Could not play station. The stream may be offline or unavailable." });
+                    toast({ variant: "destructive", title: "Playback Error", description: "Could not play station." });
                 });
             }
             setCurrentStation(station);
@@ -172,7 +172,7 @@ export const useKeypad = () => {
                     playPromise.then(() => {
                         setIsPlaying(true);
                     }).catch(e => {
-                        console.error("Playback failed on toggle", e);
+                        console.error("Playback failed", e);
                         setIsPlaying(false);
                     });
                 }
@@ -187,7 +187,7 @@ export const useKeypad = () => {
                 setFavorites(JSON.parse(storedFavorites));
             }
         } catch (error) {
-            console.error("Could not load favorites from localStorage", error);
+            console.error("Could not load favorites", error);
         }
 
         if (typeof window !== 'undefined' && 'mediaSession' in navigator && navigator.mediaSession) {
@@ -235,17 +235,16 @@ export const useKeypad = () => {
     const addToFavorites = useCallback(() => {
         if (!currentStation) return;
         if (favorites.includes(currentStation.id)) {
-            toast({ title: "Already in Favorites", description: `${currentStation.name} is already a favorite.` });
+            toast({ title: "Already in Favorites" });
             return;
         }
         const newFavorites = [...favorites, currentStation.id];
         setFavorites(newFavorites);
         try {
             localStorage.setItem('amarRadioFavorites', JSON.stringify(newFavorites));
-            toast({ title: "Favorite Saved", description: `${currentStation.name} added to your favorites.` });
+            toast({ title: "Favorite Saved", description: `${currentStation.name} added.` });
         } catch (error) {
-            console.error("Could not save favorites to localStorage", error);
-            toast({ variant: "destructive", title: "Error", description: "Could not save favorite." });
+            console.error("Could not save favorites", error);
         }
     }, [currentStation, favorites, toast]);
     
@@ -272,7 +271,7 @@ export const useKeypad = () => {
         if (audioRef.current) {
             audioRef.current.volume = newVolume;
         }
-        toast({ title: "Volume", description: `${Math.round(newVolume * 100)}%` });
+        toast({ title: `Volume: ${Math.round(newVolume * 100)}%` });
     }, [toast, volume]);
 
 
@@ -285,9 +284,9 @@ export const useKeypad = () => {
             case 'HOME':
                 if (key === 'ArrowUp') handleListNavigation('up', homeMenuItems);
                 else if (key === 'ArrowDown') handleListNavigation('down', homeMenuItems);
-                else if (key === 'Enter' || (key >= '1' && key <= '3')) {
+                else if (key === 'Enter' || (key >= '1' && key <= '4')) {
                     let targetIndex = activeIndex;
-                    if (key >= '1' && key <= '3') {
+                    if (key >= '1' && key <= '4') {
                         targetIndex = parseInt(key) - 1;
                     }
 
@@ -311,10 +310,11 @@ export const useKeypad = () => {
             case 'STATIONS':
             case 'FAVORITES':
             case 'SEARCH':
+            case 'GUIDE':
                 if (key === 'ArrowUp') handleListNavigation('up', filteredStations);
                 else if (key === 'ArrowDown') handleListNavigation('down', filteredStations);
                 else if (key === 'Enter') {
-                    if (filteredStations[activeIndex]) {
+                    if (view !== 'GUIDE' && filteredStations[activeIndex]) {
                         playStation(filteredStations[activeIndex]);
                     }
                 }

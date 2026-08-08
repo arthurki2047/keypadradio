@@ -11,6 +11,7 @@ export function HomeView({ activeIndex, setView, setActiveIndex, setFilteredStat
     { label: "Stations", view: "STATIONS" as const },
     { label: "Search", view: "SEARCH" as const },
     { label: "Favorites", view: "FAVORITES" as const },
+    { label: "Guide", view: "GUIDE" as const },
   ];
   const activeItemRef = useRef<HTMLLIElement>(null);
 
@@ -21,7 +22,7 @@ export function HomeView({ activeIndex, setView, setActiveIndex, setFilteredStat
     });
   }, [activeIndex]);
 
-  const handleMenuClick = (view: "STATIONS" | "SEARCH" | "FAVORITES") => {
+  const handleMenuClick = (view: "STATIONS" | "SEARCH" | "FAVORITES" | "GUIDE") => {
     if (view === "SEARCH") {
       setFilteredStations(allStations);
     }
@@ -31,22 +32,22 @@ export function HomeView({ activeIndex, setView, setActiveIndex, setFilteredStat
 
   return (
     <div className="flex flex-col items-center justify-center h-full text-foreground p-4">
-      <Radio className="w-20 h-20 text-primary animate-pulse" />
-      <h2 className="text-3xl font-headline font-bold mt-4">Amar Radio</h2>
-      <p className="text-muted-foreground text-sm">Your daily dose of Bangla music</p>
-      <div className="mt-8 w-full">
-        <ul className="space-y-2">
+      <Radio className="w-16 h-16 text-primary animate-pulse" />
+      <h2 className="text-2xl font-headline font-bold mt-4">Amar Radio</h2>
+      <p className="text-muted-foreground text-[10px]">Your daily dose of music</p>
+      <div className="mt-6 w-full max-w-[200px]">
+        <ul className="space-y-1.5">
           {menuItems.map((item, index) => (
             <li key={item.label} ref={index === activeIndex ? activeItemRef : null}>
               <button
                 onClick={() => handleMenuClick(item.view)}
-                className={`w-full text-left p-3 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-primary ${
+                className={`w-full text-left p-2 rounded-lg transition-colors focus:outline-none text-sm ${
                   index === activeIndex
-                    ? 'bg-primary text-primary-foreground'
-                    : 'bg-background hover:bg-primary/10 border'
+                    ? 'bg-primary text-primary-foreground shadow-sm scale-[1.02]'
+                    : 'bg-background hover:bg-primary/5 border border-border/50'
                 }`}
               >
-                <span className="font-bold">{index + 1}.</span> {item.label}
+                <span className="font-bold mr-2 opacity-50">{index + 1}.</span> {item.label}
               </button>
             </li>
           ))}

@@ -5,6 +5,7 @@ import { StationsView } from './views/stations-view';
 import { PlayerView } from './views/player-view';
 import { SearchView } from './views/search-view';
 import { FavoritesView } from './views/favorites-view';
+import { GuideView } from './views/guide-view';
 import { useKeypad } from '@/hooks/use-keypad';
 import { AnimatePresence, motion } from 'framer-motion';
 
@@ -23,6 +24,8 @@ export function Screen(props: ScreenProps) {
         return <SearchView {...props} />;
       case 'FAVORITES':
         return <FavoritesView {...props} />;
+      case 'GUIDE':
+        return <GuideView {...props} />;
       default:
         return <HomeView {...props} />;
     }
