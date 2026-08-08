@@ -18,37 +18,38 @@ export function SearchView({ searchTerm, filteredStations, activeIndex }: Search
   }, [activeIndex]);
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="p-2 border-b">
-        <div className="flex items-center gap-2 bg-neutral-100 dark:bg-neutral-700 p-2 rounded-lg">
-            <Search className="w-5 h-5 text-muted-foreground" />
-            <div className="w-full text-lg font-mono min-h-[28px]">{searchTerm}
-                <span className="animate-ping">_</span>
+    <div className="flex flex-col h-full bg-background">
+      <div className="p-2 border-b bg-muted/20">
+        <div className="flex items-center gap-2 bg-neutral-100 dark:bg-neutral-800 p-1.5 rounded-xl border">
+            <Search className="w-3.5 h-3.5 text-muted-foreground" />
+            <div className="w-full text-xs font-mono min-h-[16px] overflow-hidden whitespace-nowrap">
+                {searchTerm}
+                <span className="animate-pulse">|</span>
             </div>
         </div>
       </div>
-      <ul className="flex-1 overflow-y-auto p-2 space-y-1">
+      <ul className="flex-1 overflow-y-auto p-1.5 space-y-1">
         {filteredStations.map((station, index) => (
           <li
             key={station.id}
             ref={index === activeIndex ? activeItemRef : null}
-            className={`flex items-center gap-3 p-2 rounded-lg transition-colors ${
-              index === activeIndex ? 'bg-primary text-primary-foreground' : 'hover:bg-primary/10'
+            className={`flex items-center gap-2.5 p-1.5 rounded-xl transition-colors ${
+              index === activeIndex ? 'bg-primary text-primary-foreground shadow-md' : 'hover:bg-primary/5'
             }`}
           >
             <Image 
                 src={station.logoUrl} 
                 alt={station.name} 
-                width={40} 
-                height={40} 
-                className="rounded-md"
+                width={32} 
+                height={32} 
+                className="rounded-lg shadow-sm"
                 unoptimized
             />
-            <span className="font-semibold">{station.name}</span>
+            <span className="text-[11px] font-bold line-clamp-1">{station.name}</span>
           </li>
         ))}
-        {filteredStations.length === 0 && (
-            <li className="text-center text-muted-foreground p-8">No stations found for "{searchTerm}".</li>
+        {filteredStations.length === 0 && searchTerm && (
+            <li className="text-center text-muted-foreground p-6 text-[10px]">No results for "{searchTerm}".</li>
         )}
       </ul>
     </div>
